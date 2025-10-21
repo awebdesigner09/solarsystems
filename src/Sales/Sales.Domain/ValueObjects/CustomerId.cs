@@ -2,8 +2,10 @@
 {
     public record CustomerId
     {
-        public Guid Value { get;}
-        public CustomerId(Guid value) => Value = value;
+        public Guid Value { get; init; }
+        private CustomerId(Guid value) => Value = value;
+
+        private CustomerId() { }
 
         public static CustomerId Of(Guid value)
         {

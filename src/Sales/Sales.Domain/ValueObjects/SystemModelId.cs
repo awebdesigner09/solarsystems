@@ -3,7 +3,9 @@
     public record SystemModelId
     {
         public Guid Value { get; }
-        public SystemModelId(Guid value) => Value = value;
+        private SystemModelId(Guid value) => Value = value;
+
+        private SystemModelId() { }
 
         public static SystemModelId Of(Guid value)
         {

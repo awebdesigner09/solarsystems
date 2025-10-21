@@ -3,8 +3,9 @@
     public record QuoteRequestId
     {
         public Guid Value { get; }
-        public QuoteRequestId(Guid value) => Value = value;
+        private QuoteRequestId(Guid value) => Value = value;
 
+        private QuoteRequestId() { }
         public static QuoteRequestId Of(Guid value)
         {
             ArgumentNullException.ThrowIfNull(value);

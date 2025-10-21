@@ -1,0 +1,1 @@
+﻿global using Sales.Domain.Models;

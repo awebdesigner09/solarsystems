@@ -16,10 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="QuoteRequests\" />
+    <Folder Include="Sales\Commands\" />
+    <Folder Include="Sales\EventHandlers\" />
   </ItemGroup>
 
 </Project>

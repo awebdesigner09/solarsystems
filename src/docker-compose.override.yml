@@ -1,0 +1,23 @@
+services:
+  salesdb:
+    container_name: salesdb
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=MyStr0ngPa$$w0rd
+    restart: always
+    ports:
+      - "1433:1433"
+  sales.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__SalesDatabase=Server=salesdb;Database=SalesDB;User Id=sa;Password=MyStr0ngPa$$w0rd;Encrypt=False;TrustServerCertificate=True
+    ports:
+      - "4001:8080"
+      - "4041:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

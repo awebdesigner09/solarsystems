@@ -13,10 +13,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Sales/Sales.API/Sales.API.csproj", "Sales/Sales.API/"]
-COPY ["Sales/Sales.Application/Sales.Application.csproj", "Sales/Sales.Application/"]
-COPY ["BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj", "BuildingBlocks/BuildingBlocks/"]
-COPY ["Sales/Sales.Domain/Sales.Domain.csproj", "Sales/Sales.Domain/"]
-COPY ["Sales/Sales.Infrastructure/Sales.Infrastructure.csproj", "Sales/Sales.Infrastructure/"]
 RUN dotnet restore "./Sales/Sales.API/Sales.API.csproj"
 COPY . .
 WORKDIR "/src/Sales/Sales.API"

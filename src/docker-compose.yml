@@ -1,0 +1,8 @@
+services:
+  salesdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+  sales.api:
+    image: ${DOCKER_REGISTRY-}salesapi
+    build:
+      context: .
+      dockerfile: Sales/Sales.API/Dockerfile

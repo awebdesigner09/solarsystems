@@ -176,8 +176,8 @@ namespace Sales.Infrastructure.Data.Migrations
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("CapacityKW")
-                        .HasColumnType("int");
+                    b.Property<decimal>("CapacityKW")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");

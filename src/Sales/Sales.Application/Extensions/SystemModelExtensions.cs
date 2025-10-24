@@ -4,12 +4,7 @@
     {
         public static IEnumerable<SystemModelDto> ToSystemModelDtoList(this IEnumerable<SystemModel> systemModels)
         {
-            return systemModels.Select(sm => new SystemModelDto(
-                Id: sm.Id.Value,
-                Name: sm.Name,
-                PanelType: sm.PanelType,
-                CapacityKW: sm.CapacityKW,
-                BasePrice: sm.BasePrice));
+            return systemModels.Select(sm => sm.ToSystemModelDto());
         }
 
         public static SystemModelDto ToSystemModelDto(this SystemModel systemModel)

@@ -41,7 +41,7 @@ namespace Sales.Infrastructure.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     PanelType = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    CapacityKW = table.Column<int>(type: "int", nullable: false),
+                    CapacityKW = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),

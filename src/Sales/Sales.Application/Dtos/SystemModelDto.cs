@@ -4,7 +4,7 @@
         Guid Id,
         string Name,
         string PanelType,
-        int CapacityKW,
+        decimal CapacityKW,
         decimal BasePrice
     );
 }

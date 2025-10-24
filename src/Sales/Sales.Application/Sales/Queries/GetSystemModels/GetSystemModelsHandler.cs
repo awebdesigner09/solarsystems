@@ -2,7 +2,8 @@
 
 namespace Sales.Application.Sales.Queries.GetSystemModels
 {
-    public class GetSystemModelsHandler(IApplicationDbContext dbContext) : IQueryHandler<GetSystemModelsQuery, GetSystemModelsResult>
+    public class GetSystemModelsHandler(IApplicationDbContext dbContext) 
+        : IQueryHandler<GetSystemModelsQuery, GetSystemModelsResult>
     {
         public async Task<GetSystemModelsResult> Handle(GetSystemModelsQuery request, CancellationToken cancellationToken)
         {

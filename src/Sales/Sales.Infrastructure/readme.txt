@@ -1,0 +1,1 @@
+Add-Migration InitialCreate -OutputDir Data/Migrations -Project Sales.Infrastructure -StartupProject Sales.API

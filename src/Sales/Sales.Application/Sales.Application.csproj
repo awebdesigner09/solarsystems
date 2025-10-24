@@ -16,8 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="Sales\Commands\" />
     <Folder Include="Sales\EventHandlers\" />
   </ItemGroup>
 

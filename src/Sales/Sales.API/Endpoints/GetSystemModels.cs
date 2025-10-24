@@ -18,7 +18,7 @@ namespace Sales.API.Endpoints
             {   
                 var result = await sender.Send(new GetSystemModelsQuery(request));
 
-                var response = result.Adapt<GetSystemModelsResponse>();
+                var response = new GetSystemModelsResponse(result.SystemModels);
 
                 return Results.Ok(response);
             })

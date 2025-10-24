@@ -13,7 +13,7 @@ using Sales.Infrastructure.Data;
 namespace Sales.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251022005708_InitialCreate")]
+    [Migration("20251024105117_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -179,8 +179,8 @@ namespace Sales.Infrastructure.Data.Migrations
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("CapacityKW")
-                        .HasColumnType("int");
+                    b.Property<decimal>("CapacityKW")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");

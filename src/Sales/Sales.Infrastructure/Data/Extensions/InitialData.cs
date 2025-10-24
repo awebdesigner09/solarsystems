@@ -7,8 +7,8 @@ namespace Sales.Infrastructure.Data.Extensions
         public static IEnumerable<SystemModel> SystemModels =>
             new List<SystemModel>
             {
-                SystemModel.Create(SystemModelId.Of(new Guid("90DA9DFB-EB54-42C7-BCED-93E8549213FF")), "name", "panel type", 100, 100),
-                SystemModel.Create(SystemModelId.Of(new Guid("7FBD0B40-35F0-442F-B2A7-B07AB6818278")), "name", "panel type", 100, 100)
+                SystemModel.Create(SystemModelId.Of(new Guid("90DA9DFB-EB54-42C7-BCED-93E8549213FF")), "Mono PERC", "Monocrystalline", 6m, 15000m),
+                SystemModel.Create(SystemModelId.Of(new Guid("7FBD0B40-35F0-442F-B2A7-B07AB6818278")), "Polycrystalline", "Polycrystalline", 7.5m, 22500)
             };
 
         public static IEnumerable<Customer> Customers

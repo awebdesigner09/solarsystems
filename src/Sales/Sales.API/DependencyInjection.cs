@@ -13,6 +13,7 @@ namespace Sales.API
             services.AddExceptionHandler<CustomExceptionHandler>();
             services.AddHealthChecks()
                 .AddSqlServer(configuration.GetConnectionString("SalesDatabase")!);
+            
             return services;
         }
 

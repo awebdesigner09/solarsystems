@@ -1,6 +1,6 @@
 ﻿using Sales.Application.Sales.Commands.DeleteSystemModel;
 
-namespace Sales.API.Endpoints
+namespace Sales.API.Endpoints.SystemModel
 {
     // Accepts the SystemModel ID to delete as parameter.
     // Constructs a DeleteSystemModelCommand and sends it to the mediator.

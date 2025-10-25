@@ -1,6 +1,6 @@
 ﻿using Sales.Application.Sales.Commands.UpdateSystemModel;
 
-namespace Sales.API.Endpoints
+namespace Sales.API.Endpoints.SystemModel
 {
     // Accepts as UpdateSystemModelRequest object.
     // Maps to UpdateSystemModelCommand.

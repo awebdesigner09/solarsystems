@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.Pagination;
 using Sales.Application.Sales.Queries.GetSystemModels;
 
-namespace Sales.API.Endpoints
+namespace Sales.API.Endpoints.SystemModel
 {
 
     //- Accepts pagination parameters.
@@ -25,7 +25,6 @@ namespace Sales.API.Endpoints
             .WithName("GetSystemModels")
             .Produces<GetSystemModelsResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
-            .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Get System Models")
             .WithDescription("Get Solar System Models with pagination.");
         }

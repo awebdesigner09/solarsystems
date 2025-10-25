@@ -20,7 +20,7 @@ namespace Sales.Domain.ValueObjects
             City = city;
             State = state;
             PostalCode = postalCode;
-            Country = country;
+            Country = country?? "USA";
         }
 
         public static Address Of(string addressLine1, string? addressLine2, string city, string state, string postalCode, string country)

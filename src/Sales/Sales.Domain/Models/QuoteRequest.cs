@@ -7,11 +7,11 @@
         public QuoteRequestStatus Status { get; private set; } = QuoteRequestStatus.Pending;
         public string? CustomConfig { get; private set; } = default!;
 
-        public static QuoteRequest Create(QuoteRequestId quoteRequestId, CustomerId customerId, SystemModelId systemModelId, string? customConfig = null)
+        public static QuoteRequest Create(QuoteRequestId id, CustomerId customerId, SystemModelId systemModelId, string? customConfig = null)
         {   
             var quoteRequest = new QuoteRequest
             {
-                Id = quoteRequestId,
+                Id = id,
                 CustomerId = customerId,
                 SystemModelId = systemModelId,
                 CustomConfig = customConfig,

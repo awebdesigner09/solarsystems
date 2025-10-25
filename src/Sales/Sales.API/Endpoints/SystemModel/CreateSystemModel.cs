@@ -1,6 +1,6 @@
 ﻿using Sales.Application.Sales.Commands.CreateSystemModel;
 
-namespace Sales.API.Endpoints
+namespace Sales.API.Endpoints.SystemModel
 {
     // Accepts CreateSystemModelRequest object.
     // Maps to CreateSystemModelCommand.

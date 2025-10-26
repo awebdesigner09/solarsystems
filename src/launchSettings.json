@@ -4,7 +4,9 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "sales.api": "StartDebugging"
+        "sales.api": "StartDebugging",
+        "messagebroker": "StartWithoutDebugging",
+        "salesdb": "StartWithoutDebugging"
       }
     }
   }

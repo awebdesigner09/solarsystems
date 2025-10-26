@@ -7,12 +7,29 @@ services:
     restart: always
     ports:
       - "1433:1433"
+  
+  messagebroker:
+    container_name: messagebroker
+    hostname: sales-mq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  
   sales.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__SalesDatabase=Server=salesdb;Database=SalesDB;User Id=sa;Password=MyStr0ngPa$$w0rd;Encrypt=False;TrustServerCertificate=True
+      - MessageBroker__Host=rabbitmq://sales-mq
+      - MessageBroker__Username=guest
+      - MessageBroker__Password=guest
+    depends_on:
+      - salesdb
+      - messagebroker
     ports:
       - "4001:8080"
       - "4041:8081"

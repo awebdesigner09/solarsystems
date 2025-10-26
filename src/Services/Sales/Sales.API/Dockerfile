@@ -12,14 +12,13 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Sales/Sales.API/Sales.API.csproj", "Sales/Sales.API/"]
-COPY ["Sales/Sales.Application/Sales.Application.csproj", "Sales/Sales.Application/"]
-COPY ["BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj", "BuildingBlocks/BuildingBlocks/"]
-COPY ["Sales/Sales.Domain/Sales.Domain.csproj", "Sales/Sales.Domain/"]
-COPY ["Sales/Sales.Infrastructure/Sales.Infrastructure.csproj", "Sales/Sales.Infrastructure/"]
-RUN dotnet restore "./Sales/Sales.API/Sales.API.csproj"
+COPY ["Services/Sales/Sales.API/Sales.API.csproj", "Services/Sales/Sales.API/"]
+COPY ["Services/Sales/Sales.Application/Sales.Application.csproj", "Services/Sales/Sales.Application/"]
+COPY ["Services/Sales/Sales.Domain/Sales.Domain.csproj", "Services/Sales/Sales.Domain/"]
+COPY ["Services/Sales/Sales.Infrastructure/Sales.Infrastructure.csproj", "Services/Sales/Sales.Infrastructure/"]
+RUN dotnet restore "./Services/Sales/Sales.API/Sales.API.csproj"
 COPY . .
-WORKDIR "/src/Sales/Sales.API"
+WORKDIR "/src/Services/Sales/Sales.API"
 RUN dotnet build "./Sales.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

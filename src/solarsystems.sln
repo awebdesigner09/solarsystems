@@ -3,21 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sales", "Sales", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{85070376-9ADD-4D3C-9392-0A8FF4D87BC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.API", "Sales\Sales.API\Sales.API.csproj", "{3758827C-9D7A-74B5-80A0-DB43E8FC4B99}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sales", "Services\Sales", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Domain", "Sales\Sales.Domain\Sales.Domain.csproj", "{56E57915-79B5-57C4-D219-85B6A9F8226C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.API", "Services\Sales\Sales.API\Sales.API.csproj", "{3758827C-9D7A-74B5-80A0-DB43E8FC4B99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Application", "Sales\Sales.Application\Sales.Application.csproj", "{A1E88697-A1B5-8DAC-B4E9-04B79E1AFD42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Domain", "Services\Sales\Sales.Domain\Sales.Domain.csproj", "{56E57915-79B5-57C4-D219-85B6A9F8226C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Infrastructure", "Sales\Sales.Infrastructure\Sales.Infrastructure.csproj", "{232F3C06-79AA-0900-EFF8-77271064DA80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Application", "Services\Sales\Sales.Application\Sales.Application.csproj", "{A1E88697-A1B5-8DAC-B4E9-04B79E1AFD42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Infrastructure", "Services\Sales\Sales.Infrastructure\Sales.Infrastructure.csproj", "{232F3C06-79AA-0900-EFF8-77271064DA80}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{DE85B503-D723-4283-8413-E311DA39E236}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks", "BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj", "{29DC10B2-A005-4489-AE09-6012E71DB71A}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Messaging", "BuildingBlocks\BuildingBlocks.Messaging\BuildingBlocks.Messaging.csproj", "{DA1F98B0-27DD-4E05-8F3C-17AC0DBDD4DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,16 +53,22 @@ Global
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA1F98B0-27DD-4E05-8F3C-17AC0DBDD4DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA1F98B0-27DD-4E05-8F3C-17AC0DBDD4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA1F98B0-27DD-4E05-8F3C-17AC0DBDD4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA1F98B0-27DD-4E05-8F3C-17AC0DBDD4DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {85070376-9ADD-4D3C-9392-0A8FF4D87BC1}
 		{3758827C-9D7A-74B5-80A0-DB43E8FC4B99} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{56E57915-79B5-57C4-D219-85B6A9F8226C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{A1E88697-A1B5-8DAC-B4E9-04B79E1AFD42} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{232F3C06-79AA-0900-EFF8-77271064DA80} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{29DC10B2-A005-4489-AE09-6012E71DB71A} = {DE85B503-D723-4283-8413-E311DA39E236}
+		{DA1F98B0-27DD-4E05-8F3C-17AC0DBDD4DB} = {DE85B503-D723-4283-8413-E311DA39E236}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {721E5610-650C-4E7A-BB55-27961C070232}

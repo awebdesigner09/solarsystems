@@ -1,6 +1,11 @@
-﻿namespace Sales.Application.Sales.Commands.CreateQuoteRequest
+﻿using MassTransit;
+using BuildingBlocks.Messaging.Events;
+
+namespace Sales.Application.Sales.Commands.CreateQuoteRequest
 {
-   public class CreateQuoteRequestHandler(IApplicationDbContext dbContext) :
+   public class CreateQuoteRequestHandler(
+       IApplicationDbContext dbContext, 
+       IPublishEndpoint publishEndpoint) :
         ICommandHandler<CreateQuoteRequestCommand, CreateQuoteRequestResult>
     {
         public async Task<CreateQuoteRequestResult> Handle(CreateQuoteRequestCommand command, CancellationToken cancellationToken)
@@ -11,6 +16,16 @@
             var quoteRequest = CreateNewQuoteRequest(command.QuoteRequest);
             dbContext.QuoteRequests.Add(quoteRequest);
             await dbContext.SaveChangesAsync(cancellationToken);
+            // Publish integration event
+            var quoteRequestEvent = new QuoteRequestEvent
+            {
+                UserName = "System", // Replace with actual user context if available
+                CustomerId = quoteRequest.CustomerId.Value,
+                SystemModelId = quoteRequest.SystemModelId.Value,
+                CustomConfig = quoteRequest.CustomConfig
+            };
+            await publishEndpoint.Publish(quoteRequestEvent, cancellationToken);
+
             return new CreateQuoteRequestResult(quoteRequest.Id.Value);
         }
         private QuoteRequest CreateNewQuoteRequest(QuoteRequestDto dto)
@@ -24,5 +39,6 @@
 
             return newQuoteRequest;
         }
+         
     }
 }

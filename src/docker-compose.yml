@@ -1,8 +1,10 @@
 services:
   salesdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
+  messagebroker:
+    image: rabbitmq:management
   sales.api:
     image: ${DOCKER_REGISTRY-}salesapi
     build:
       context: .
-      dockerfile: Sales/Sales.API/Dockerfile
+      dockerfile: Services/Sales/Sales.API/Dockerfile

@@ -19,6 +19,7 @@ namespace Sales.Infrastructure.Data.Extensions
             await SeedSystemModelAsync(context);
             await SeedCustomerAsync(context);
             await SeedQuoteRequestAsync(context);
+            await SeedQuotesAsync(context);
             await SeedOrderAsync(context);
             
         }
@@ -45,6 +46,14 @@ namespace Sales.Infrastructure.Data.Extensions
             if (!await context.QuoteRequests.AnyAsync())
             {
                 await context.QuoteRequests.AddRangeAsync(InitialData.QuoteRequests);
+                await context.SaveChangesAsync();
+            }
+        }
+        private static async Task SeedQuotesAsync(ApplicationDbContext context)
+        {
+            if(!await context.Quotes.AnyAsync())
+            {
+                await context.Quotes.AddRangeAsync(InitialData.Quotes);
                 await context.SaveChangesAsync();
             }
         }

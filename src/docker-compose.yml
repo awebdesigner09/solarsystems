@@ -8,3 +8,9 @@ services:
     build:
       context: .
       dockerfile: Services/Sales/Sales.API/Dockerfile
+  sales.quotesworker:
+    image: ${DOCKER_REGISTRY-}salesquotesworker
+    build:
+      context: .
+      dockerfile: Services/Sales/Sales.QuotesWorker/Dockerfile
+

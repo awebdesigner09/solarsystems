@@ -7,13 +7,13 @@ namespace BuildingBlocks.Messaging.MassTransit
 {
    public static class Extensions
     {
-        public static IServiceCollection AddMessageBroker(this IServiceCollection services, IConfiguration configuration, params Assembly[] assemblies)
+        public static IServiceCollection AddMessageBroker(this IServiceCollection services, IConfiguration configuration, Assembly? assembly=null)
         {
             services.AddMassTransit(config =>
             {
                 config.SetKebabCaseEndpointNameFormatter();
-                foreach(var asm in assemblies.Where(a => a is not null))
-                    config.AddConsumers(asm);
+                if (assembly != null)
+                    config.AddConsumers(assembly);
 
                 config.UsingRabbitMq((context, configurator) =>
                 {

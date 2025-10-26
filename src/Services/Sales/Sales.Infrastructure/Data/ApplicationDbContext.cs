@@ -17,12 +17,15 @@ namespace Sales.Infrastructure.Data
 
         public DbSet<Order> Orders => Set<Order>();
 
+        public DbSet<Quote> Quotes => Set<Quote>();
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Ignore<CustomerId>();
             builder.Ignore<SystemModelId>();
             builder.Ignore<QuoteRequestId>();
             builder.Ignore<OrderId>();
+            builder.Ignore<QuoteId>();
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(builder);
         }

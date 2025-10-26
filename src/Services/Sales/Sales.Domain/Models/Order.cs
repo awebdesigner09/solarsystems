@@ -2,15 +2,15 @@
 {
     public class Order : Aggregate<OrderId>
     {
-        public QuoteRequestId QuoteRequestId { get; private set; } = default!;
+        public QuoteId QuoteId { get; private set; } = default!;
         public OrderStatus Status { get; private set; } = OrderStatus.Processing;
 
-        public static Order Create(OrderId orderId, QuoteRequestId quoteRequestId)
+        public static Order Create(OrderId orderId, QuoteId quoteId)
         {
             var order = new Order
             {
                 Id = orderId,
-                QuoteRequestId = quoteRequestId,
+                QuoteId = quoteId,
                 Status = OrderStatus.Processing
             };
             order.AddDomainEvent(new OrderCreatedEvent(order));

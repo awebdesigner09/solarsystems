@@ -6,7 +6,8 @@
       "serviceActions": {
         "sales.api": "StartDebugging",
         "messagebroker": "StartWithoutDebugging",
-        "salesdb": "StartWithoutDebugging"
+        "salesdb": "StartWithoutDebugging",
+        "sales.quotesworker": "StartDebugging"
       }
     }
   }

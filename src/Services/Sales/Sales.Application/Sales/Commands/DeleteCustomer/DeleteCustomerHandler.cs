@@ -1,4 +1,4 @@
-﻿namespace Sales.Application.Sales.Commands.Delete
+﻿namespace Sales.Application.Sales.Commands.DeleteCustomer
 {
     public class DeleteCustomerHandler(IApplicationDbContext dbContext)
         : ICommandHandler<DeleteCustomerCommand, DeleteCustomerResult>

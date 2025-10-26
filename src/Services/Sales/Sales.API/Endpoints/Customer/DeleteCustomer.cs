@@ -1,4 +1,4 @@
-﻿using Sales.Application.Sales.Commands.Delete;
+﻿using Sales.Application.Sales.Commands.DeleteCustomer;
 
 namespace Sales.API.Endpoints.Customer
 {

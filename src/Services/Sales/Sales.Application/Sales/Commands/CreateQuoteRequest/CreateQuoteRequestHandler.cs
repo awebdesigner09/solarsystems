@@ -20,6 +20,7 @@ namespace Sales.Application.Sales.Commands.CreateQuoteRequest
             var quoteRequestEvent = new QuoteRequestEvent
             {
                 UserName = "System", // Replace with actual user context if available
+                QuoteRequestId = quoteRequest.Id.Value,
                 CustomerId = quoteRequest.CustomerId.Value,
                 SystemModelId = quoteRequest.SystemModelId.Value,
                 CustomConfig = quoteRequest.CustomConfig

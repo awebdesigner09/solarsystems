@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Sales.Application.Sales.Commands.Delete
+namespace Sales.Application.Sales.Commands.DeleteCustomer
 {
     public record DeleteCustomerCommand(Guid CustomerId) 
         : ICommand<DeleteCustomerResult>;

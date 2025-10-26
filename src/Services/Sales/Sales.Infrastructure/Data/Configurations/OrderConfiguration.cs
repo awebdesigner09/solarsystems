@@ -12,9 +12,9 @@ namespace Sales.Infrastructure.Data.Configurations
                 orderId => orderId.Value,
                 dbId => OrderId.Of(dbId));
 
-            builder.HasOne<QuoteRequest>()
+            builder.HasOne<Quote>()
                    .WithMany()
-                   .HasForeignKey(o => o.QuoteRequestId)
+                   .HasForeignKey(o => o.QuoteId)
                    .IsRequired();
 
             builder.Property(o => o.Status)

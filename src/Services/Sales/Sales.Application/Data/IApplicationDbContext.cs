@@ -8,6 +8,7 @@ namespace Sales.Application.Data
         DbSet<SystemModel> SystemModels { get; }
         DbSet<QuoteRequest> QuoteRequests { get; }
         DbSet<Order> Orders { get; }
+        DbSet<Quote> Quotes { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

@@ -23,5 +23,14 @@
             return quoteRequest;
         }
 
+        public void UpdateStatus(QuoteRequestStatus newStatus)
+        {
+            if (Status != newStatus)
+            {
+                Status = newStatus;
+                //AddDomainEvent(new QuoteRequestStatusUpdatedEvent(this, newStatus));
+            }
+        }
+
     }
 }

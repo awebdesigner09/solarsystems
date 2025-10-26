@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Sales.Domain\Sales.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Sales\EventHandlers\" />
-  </ItemGroup>
-
 </Project>

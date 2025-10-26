@@ -14,6 +14,8 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Services/Sales/Sales.API/Sales.API.csproj", "Services/Sales/Sales.API/"]
 COPY ["Services/Sales/Sales.Application/Sales.Application.csproj", "Services/Sales/Sales.Application/"]
+COPY ["BuildingBlocks/BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj", "BuildingBlocks/BuildingBlocks.Messaging/"]
+COPY ["BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj", "BuildingBlocks/BuildingBlocks/"]
 COPY ["Services/Sales/Sales.Domain/Sales.Domain.csproj", "Services/Sales/Sales.Domain/"]
 COPY ["Services/Sales/Sales.Infrastructure/Sales.Infrastructure.csproj", "Services/Sales/Sales.Infrastructure/"]
 RUN dotnet restore "./Services/Sales/Sales.API/Sales.API.csproj"

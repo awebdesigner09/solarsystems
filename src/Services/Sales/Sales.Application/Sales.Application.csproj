@@ -17,4 +17,9 @@
     <ProjectReference Include="..\Sales.Domain\Sales.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Sales\Commands\CreateQuote\" />
+    <Folder Include="Sales\EventHandlers\Integration\" />
+  </ItemGroup>
+
 </Project>

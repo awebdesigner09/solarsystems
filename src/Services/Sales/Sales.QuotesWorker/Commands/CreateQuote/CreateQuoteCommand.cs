@@ -1,6 +1,8 @@
-﻿using FluentValidation;
+﻿using BuildingBlocks.CQRS;
+using FluentValidation;
+using Sales.Application.Dtos;
 
-namespace Sales.Application.Sales.Commands.CreateQuote
+namespace Sales.QuotesWorker.Commands.CreateQuote
 {
     public record CreateQuoteCommand(QuoteRequestDto QuoteRequest): ICommand<CreateQuoteResult>;
     public record CreateQuoteResult(Guid QuoteId);

@@ -1,9 +1,9 @@
 ﻿using BuildingBlocks.Messaging.Events;
 using MassTransit;
 using MediatR;
-using Microsoft.Extensions.Logging;
-using Sales.Application.Sales.Commands.CreateQuote;
+using Sales.Application.Dtos;
 using Sales.Domain.Enums;
+using Sales.QuotesWorker.Commands.CreateQuote;
 
 namespace Sales.QuotesWorker.EventHandlers.Integration;
 public class QuoteRequestEventHandler

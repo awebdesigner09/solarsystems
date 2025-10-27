@@ -1,7 +1,13 @@
-﻿using MassTransit;
+﻿using BuildingBlocks.CQRS;
+using MassTransit;
+using Sales.Application.Data;
+using Sales.Application.Dtos;
+using Sales.Application.Exceptions;
 using Sales.Domain.Enums;
+using Sales.Domain.Models;
+using Sales.Domain.ValueObjects;
 
-namespace Sales.Application.Sales.Commands.CreateQuote
+namespace Sales.QuotesWorker.Commands.CreateQuote
 {
     public class CreateQuoteHandler(
         IApplicationDbContext dbContext

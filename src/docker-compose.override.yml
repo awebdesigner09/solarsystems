@@ -41,6 +41,7 @@ services:
   sales.quotesworker:
     environment:
       - DOTNET_ENVIRONMENT=Development
+      - ConnectionStrings__SalesDatabase=Server=salesdb;Database=SalesDB;User Id=sa;Password=MyStr0ngPa$$w0rd;Encrypt=False;TrustServerCertificate=True
       - MessageBroker__Host=rabbitmq://sales-mq
       - MessageBroker__Username=guest
       - MessageBroker__Password=guest

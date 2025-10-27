@@ -2,6 +2,7 @@
 using Carter;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Sales.Application.Data;
 
 namespace Sales.API
 {
@@ -13,7 +14,7 @@ namespace Sales.API
             services.AddExceptionHandler<CustomExceptionHandler>();
             services.AddHealthChecks()
                 .AddSqlServer(configuration.GetConnectionString("SalesDatabase")!);
-            
+
             return services;
         }
 

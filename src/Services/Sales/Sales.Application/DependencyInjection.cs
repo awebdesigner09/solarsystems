@@ -18,8 +18,7 @@ namespace Sales.Application
                 config.AddOpenBehavior(typeof(LoggingBehavior<,>));
             });
             services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
-            
-            return services;
+           return services;
         }
     }
 }

@@ -12,6 +12,10 @@ builder.Services
     .AddAppServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration);
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
 
 var host = builder.Build();
 host.Run();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sales.Application.Data;
@@ -21,7 +22,8 @@ namespace Sales.Infrastructure
             });
 
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-
+            
+            
             return services;
         }
     }

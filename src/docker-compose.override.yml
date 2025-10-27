@@ -18,6 +18,11 @@ services:
       - "5672:5672"
       - "15672:15672"
   
+  distributedcache:
+    container_name: distributedcache
+    restart: always
+    ports:
+      - "6379:6379"
   sales.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -27,9 +32,11 @@ services:
       - MessageBroker__Host=rabbitmq://sales-mq
       - MessageBroker__Username=guest
       - MessageBroker__Password=guest
+      - ConnectionStrings__Redis=distributedcache:6379
     depends_on:
       - salesdb
       - messagebroker
+      - distributedcache
     ports:
       - "4001:8080"
       - "4041:8081"
@@ -45,9 +52,11 @@ services:
       - MessageBroker__Host=rabbitmq://sales-mq
       - MessageBroker__Username=guest
       - MessageBroker__Password=guest
+      - ConnectionStrings__Redis=distributedcache:6379
     depends_on:
       - salesdb
       - messagebroker
+      - distributedcache
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro

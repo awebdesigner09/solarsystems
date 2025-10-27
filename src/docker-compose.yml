@@ -3,6 +3,8 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
   messagebroker:
     image: rabbitmq:management
+  distributedcache:
+    image: redis
   sales.api:
     image: ${DOCKER_REGISTRY-}salesapi
     build:

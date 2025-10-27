@@ -1,7 +1,6 @@
 ﻿using BuildingBlocks.Behaviors;
 using BuildingBlocks.Messaging.MassTransit;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Sales.Application.Data;
 using System.Reflection;
 
 namespace Sales.QuotesWorker
@@ -18,7 +17,8 @@ namespace Sales.QuotesWorker
                 config.AddOpenBehavior(typeof(LoggingBehavior<,>));
             });
             services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
-
+            services.AddScoped<IQuoteRepository, QuoteRepository>();
+            services.Decorate<IQuoteRepository, CachedQuoteRepository>();
             return services;
         }
     }

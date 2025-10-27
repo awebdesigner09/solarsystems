@@ -1,5 +1,7 @@
+using Microsoft.Extensions.Configuration;
 using Sales.API;
 using Sales.Application;
+using Sales.Application.Data;
 using Sales.Infrastructure;
 using Sales.Infrastructure.Data.Extensions;
 
@@ -11,6 +13,13 @@ builder.Services
     .AddInfrastructureServices(builder.Configuration)
     .AddApiServices(builder.Configuration);
 
+builder.Services.AddScoped<IQuoteRequestCounter, CachedQuoteRequestCounter>();
+builder.Services.AddScoped<IQuoteRepository, QuoteRepository>();
+builder.Services.Decorate<IQuoteRepository, CachedQuoteRepository>();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

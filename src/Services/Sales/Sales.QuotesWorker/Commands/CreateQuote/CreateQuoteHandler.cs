@@ -10,13 +10,15 @@ using Sales.Domain.ValueObjects;
 namespace Sales.QuotesWorker.Commands.CreateQuote
 {
     public class CreateQuoteHandler(
-        IApplicationDbContext dbContext
+        IApplicationDbContext dbContext, IQuoteRepository quoteRepository
         ) : ICommandHandler<CreateQuoteCommand, CreateQuoteResult>
     {
         public async Task<CreateQuoteResult> Handle(CreateQuoteCommand command, CancellationToken cancellationToken)
         {
-            var quote = await CreateNewQuote(command.QuoteRequest,cancellationToken);
-            dbContext.Quotes.Add(quote);
+            var newQuote = await CreateNewQuote(command.QuoteRequest,cancellationToken);
+            // Store Quote in DB and Cache
+            var quote =await quoteRepository.StoreQuoteAsync(newQuote, cancellationToken);
+            
             var quoteRequestId = QuoteRequestId.Of(command.QuoteRequest.Id);
             var quoteRequest = await dbContext.QuoteRequests.FindAsync([quoteRequestId], cancellationToken);
             quoteRequest?.UpdateStatus(QuoteRequestStatus.Ready);

@@ -1,0 +1,104 @@
+
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { finalize } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-login',
+  template: `
+    <div class="flex items-center justify-center min-h-screen bg-gray-900">
+      <div class="w-full max-w-md p-8 space-y-6 bg-gray-800 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-center text-gray-100">Login to SolarQuote</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-medium text-gray-400">Email Address</label>
+            <input id="email" type="email" formControlName="email" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm" placeholder="you@example.com">
+            @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
+              <div class="text-red-400 text-sm mt-1">
+                @if (loginForm.get('email')?.errors?.['required']) {
+                  <span>Email is required.</span>
+                }
+                @if (loginForm.get('email')?.errors?.['email']) {
+                  <span>Please enter a valid email address.</span>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="mb-6">
+             <label for="password" class="block text-sm font-medium text-gray-400">Password</label>
+            <input id="password" type="password" formControlName="password" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm" placeholder="••••••••">
+             @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)) {
+              <div class="text-red-400 text-sm mt-1">
+                @if (loginForm.get('password')?.errors?.['required']) {
+                  <span>Password is required.</span>
+                }
+              </div>
+            }
+          </div>
+
+          @if (errorMessage()) {
+            <div class="mb-4 p-3 bg-red-900/50 text-red-300 rounded-md">
+              {{ errorMessage() }}
+            </div>
+          }
+
+          <div>
+            <button type="submit" [disabled]="loginForm.invalid || isLoading()" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-gray-900 bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:bg-yellow-800 disabled:cursor-not-allowed">
+              @if (isLoading()) {
+                <span class="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900"></span>
+              } @else {
+                <span>Login</span>
+              }
+            </button>
+          </div>
+        </form>
+        <p class="mt-4 text-center text-sm text-gray-400">
+          Don't have an account? <a routerLink="/register" class="font-medium text-yellow-400 hover:text-yellow-300">Register here</a>
+        </p>
+      </div>
+    </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, RouterLink, CommonModule],
+})
+export class LoginComponent {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  isLoading = signal(false);
+  errorMessage = signal<string | null>(null);
+
+  loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+  });
+
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      return;
+    }
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
+    const { email } = this.loginForm.value;
+
+    this.authService.login(email!)
+      .pipe(
+        finalize(() => this.isLoading.set(false))
+      )
+      .subscribe({
+        next: () => {
+          const targetUrl = this.authService.isAdmin() ? '/admin' : '/catalog';
+          this.router.navigate([targetUrl]);
+        },
+        error: (err) => {
+          this.errorMessage.set(err.message || 'Login failed. Please try again.');
+        }
+      });
+  }
+}

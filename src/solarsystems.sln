@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Messaging", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.QuotesWorker", "Services\Sales\Sales.QuotesWorker\Sales.QuotesWorker.csproj", "{BC80D927-AF67-4358-A54A-A0B2D0304295}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "UI", "UI\UI.esproj", "{C62CF7B0-6508-E46D-FCE1-092C622FC55C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,12 @@ Global
 		{BC80D927-AF67-4358-A54A-A0B2D0304295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC80D927-AF67-4358-A54A-A0B2D0304295}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC80D927-AF67-4358-A54A-A0B2D0304295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C62CF7B0-6508-E46D-FCE1-092C622FC55C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C62CF7B0-6508-E46D-FCE1-092C622FC55C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C62CF7B0-6508-E46D-FCE1-092C622FC55C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C62CF7B0-6508-E46D-FCE1-092C622FC55C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C62CF7B0-6508-E46D-FCE1-092C622FC55C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C62CF7B0-6508-E46D-FCE1-092C622FC55C}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

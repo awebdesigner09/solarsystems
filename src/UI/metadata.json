@@ -1,0 +1,5 @@
+{
+  "name": "Solar Quote & Order System",
+  "description": "A comprehensive web application for customers to request quotes for solar panel systems and for administrators to manage quotes and orders. Features real-time status updates and role-based access control.",
+  "requestFramePermissions": []
+}

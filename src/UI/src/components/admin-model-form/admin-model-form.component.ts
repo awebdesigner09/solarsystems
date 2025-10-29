@@ -77,7 +77,7 @@ import { SolarSystemModel } from '../../models/solar-system-model.model';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, CurrencyPipe],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule],
 })
 export class AdminModelFormComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -93,7 +93,7 @@ export class AdminModelFormComponent implements OnInit {
 
   modelForm = this.fb.group({
     name: ['', Validators.required],
-    panelType: ['Monocrystalline' as const, Validators.required],
+    panelType: ['Monocrystalline', Validators.required],
     capacityKW: [0, [Validators.required, Validators.min(0.1)]],
     basePrice: [0, [Validators.required, Validators.min(1)]],
     description: ['', Validators.required],

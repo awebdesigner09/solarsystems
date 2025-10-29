@@ -4,4 +4,5 @@ export interface Toast {
   id: number;
   message: string;
   type: ToastType;
+  navigationLink?: string;
 }

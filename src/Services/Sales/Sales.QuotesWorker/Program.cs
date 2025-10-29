@@ -1,8 +1,10 @@
-using Sales.Application;
-using Sales.Infrastructure;
-using Sales.QuotesWorker.EventHandlers.Integration;
-using Sales.QuotesWorker;
 using BuildingBlocks.Messaging.MassTransit;
+using Sales.Application;
+using Sales.Application.Common.Interfaces;
+using Sales.Infrastructure;
+using Sales.Infrastructure.Realtime;
+using Sales.QuotesWorker;
+using Sales.QuotesWorker.EventHandlers.Integration;
 using System.Reflection;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -17,5 +19,5 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
 
-var host = builder.Build();
-host.Run();
+var app = builder.Build();
+app.Run();

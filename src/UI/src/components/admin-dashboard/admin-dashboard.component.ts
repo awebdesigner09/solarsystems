@@ -20,7 +20,7 @@ interface OrderViewModel extends Order {
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [CommonModule, RouterLink, DatePipe, CurrencyPipe],
+  imports: [CommonModule, RouterLink, DatePipe],
   template: `
     <div class="container mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-6">

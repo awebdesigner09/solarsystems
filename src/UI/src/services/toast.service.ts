@@ -8,11 +8,12 @@ export class ToastService {
   toasts = signal<Toast[]>([]);
   private lastId = 0;
 
-  show(message: string, type: ToastType = 'info', duration: number = 5000) {
+  show(message: string, type: ToastType = 'info', duration: number = 5000, navigationLink?: string) {
     const newToast: Toast = {
       id: ++this.lastId,
       message,
       type,
+      navigationLink,
     };
 
     this.toasts.update(currentToasts => [...currentToasts, newToast]);

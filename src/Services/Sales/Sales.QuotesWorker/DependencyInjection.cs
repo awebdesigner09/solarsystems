@@ -19,6 +19,7 @@ namespace Sales.QuotesWorker
             services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
             services.AddScoped<IQuoteRepository, QuoteRepository>();
             services.Decorate<IQuoteRepository, CachedQuoteRepository>();
+            
             return services;
         }
     }

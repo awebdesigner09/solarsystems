@@ -31,7 +31,19 @@ import { ToastType } from '../../models/toast.model';
           </div>
           
           <div class="ml-3 font-medium">
-            {{ toast.message }}
+            <ng-container *ngIf="toast.navigationLink; else simpleToast">
+              <a [routerLink]="toast.navigationLink" (click)="remove(toast.id)" [class]="toastClasses(toast.type) + ' cursor-pointer'">
+                {{ toast.message }}
+                <!-- Optional: Add an icon to indicate it's a link -->
+              </a>
+            </ng-container>
+
+            <ng-template #simpleToast>
+              <div [class]="toastClasses(toast.type)">
+                {{ toast.message }}
+                <button (click)="remove(toast.id)">Close</button>
+              </div>
+            </ng-template>
           </div>
 
           <button (click)="toastService.remove(toast.id)" class="absolute top-1.5 right-1.5 p-1.5 rounded-full inline-flex h-8 w-8 text-white/70 hover:text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white">

@@ -1,8 +1,10 @@
 ﻿using BuildingBlocks.CQRS;
 using MassTransit;
+using Sales.Application.Common.Interfaces;
 using Sales.Application.Data;
 using Sales.Application.Dtos;
 using Sales.Application.Exceptions;
+using Sales.Application.Models.Notifications;
 using Sales.Domain.Enums;
 using Sales.Domain.Models;
 using Sales.Domain.ValueObjects;
@@ -10,7 +12,7 @@ using Sales.Domain.ValueObjects;
 namespace Sales.QuotesWorker.Commands.CreateQuote
 {
     public class CreateQuoteHandler(
-        IApplicationDbContext dbContext, IQuoteRepository quoteRepository
+        IApplicationDbContext dbContext, IQuoteRepository quoteRepository, IRealtimeNotifier realtimeNotifier
         ) : ICommandHandler<CreateQuoteCommand, CreateQuoteResult>
     {
         public async Task<CreateQuoteResult> Handle(CreateQuoteCommand command, CancellationToken cancellationToken)
@@ -24,6 +26,19 @@ namespace Sales.QuotesWorker.Commands.CreateQuote
             quoteRequest?.UpdateStatus(QuoteRequestStatus.Ready);
             
             await dbContext.SaveChangesAsync(cancellationToken);
+
+            // Send notification to clients
+            var payload = new QuoteRequestStatusChangedDto
+            {
+                QuoteRequestId = command.QuoteRequest.Id,
+                CustomerId = command.QuoteRequest.CustomerId,
+                NewStatus = QuoteRequestStatus.Ready.ToString(),
+                OldStatus = QuoteRequestStatus.Processing.ToString()
+            };
+            var notification = new RealtimeNotification<QuoteRequestStatusChangedDto>("QuoteRequestStatusChanged", payload);
+            string channel = $"customer-events:{command.QuoteRequest.CustomerId}";
+            await realtimeNotifier.PublishAsync(channel, notification, cancellationToken);
+
             return new CreateQuoteResult(quote.Id.Value);
         }
         private async Task<Quote> CreateNewQuote(QuoteRequestDto quoteRequestDto, CancellationToken cancellationToken)

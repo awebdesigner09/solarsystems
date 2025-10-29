@@ -2,7 +2,10 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sales.Application.Common.Interfaces;
 using Sales.Application.Data;
+using Sales.Infrastructure.Realtime;
+using StackExchange.Redis;
 
 namespace Sales.Infrastructure
 {
@@ -22,8 +25,9 @@ namespace Sales.Infrastructure
             });
 
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-            
-            
+            services.AddSignalR();
+            services.AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")!));
+            services.AddScoped<IRealtimeNotifier, RedisRealtimeNotifier>();
             return services;
         }
     }

@@ -9,6 +9,7 @@ namespace Sales.API.Endpoints.Auth
 {
     public record RegisterRequest(
         string Username, 
+        string FullName,
         string Email, 
         string Password,
         string AddressLine1,
@@ -44,7 +45,7 @@ namespace Sales.API.Endpoints.Auth
                     // Use the CreateCustomerCommand to create the customer profile
                     var customerDto = new CustomerDto(
                         Id: Guid.NewGuid(),
-                        Name: request.Username,
+                        Name: request.FullName,
                         Email: request.Email,
                         Address: new AddressDto(
                             request.AddressLine1,

@@ -80,10 +80,10 @@ builder.Services.AddAuthorization(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseApiServices();
 app.UseCors(myAppCorsPolicy);
+app.UseApiServices();
 
-if(app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     await app.InitialiseDatabaseAsync();
 }

@@ -1,18 +1,23 @@
-import { Injectable, signal } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { Injectable, signal, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of, throwError, tap, map } from 'rxjs';
 import { SolarSystemModel } from '../models/solar-system-model.model';
 // Fix: Import LocationDetails from customer.model.ts as it is not exported from quote-request.model.ts
 import { QuoteRequest, QuoteStatus, CustomConfig } from '../models/quote-request.model';
 import { LocationDetails } from '../models/customer.model';
 import { Order, OrderStatus } from '../models/order.model';
+import { environment } from '../environments/environment';
 
-const MOCK_MODELS: SolarSystemModel[] = [
-    { id: 'model-1', name: 'Starter SunKit', panelType: 'Monocrystalline', capacityKW: 5, basePrice: 12000, description: 'Ideal for small homes, providing essential power with high-efficiency panels.', imageUrl: 'https://picsum.photos/seed/model-1/600/400' },
-    { id: 'model-2', name: 'EcoPower Plus', panelType: 'Polycrystalline', capacityKW: 8, basePrice: 18000, description: 'A balance of performance and value, suitable for medium-sized residences.', imageUrl: 'https://picsum.photos/seed/model-2/600/400' },
-    { id: 'model-3', name: 'GridMaster Pro', panelType: 'Monocrystalline', capacityKW: 12, basePrice: 25000, description: 'Maximum power output for large homes or small businesses, with premium panels.', imageUrl: 'https://picsum.photos/seed/model-3/600/400' },
-    { id: 'model-4', name: 'FlexiThin Solar', panelType: 'Thin-Film', capacityKW: 6, basePrice: 15000, description: 'Lightweight and flexible, perfect for non-traditional roofs or mobile applications.', imageUrl: 'https://picsum.photos/seed/model-4/600/400' },
-];
+interface PaginatedResult<T> {
+  pageIndex: number;
+  pageSize: number;
+  count: number;
+  data: T[];
+}
+
+interface GetSystemModelsResponse {
+  systemModels: PaginatedResult<SolarSystemModel>;
+}
 
 const MOCK_QUOTES: QuoteRequest[] = [
     {
@@ -36,6 +41,8 @@ const MOCK_ORDERS: Order[] = [
   providedIn: 'root'
 })
 export class DataService {
+  private http = inject(HttpClient);
+  private apiUrl = `${environment.apiUrl}/system-models`;
 
   private readonly _models = signal<SolarSystemModel[]>([]);
   private readonly _quotes = signal<QuoteRequest[]>([]);
@@ -46,50 +53,68 @@ export class DataService {
   public readonly orders = this._orders.asReadonly();
 
   constructor() {
-    this._models.set(MOCK_MODELS);
     this._quotes.set(MOCK_QUOTES);
     this._orders.set(MOCK_ORDERS);
+    this.getSolarSystemModels().subscribe(); // Fetch models on service initialization
   }
   
   // Models
   getSolarSystemModels(): Observable<SolarSystemModel[]> {
-    return of(this.models()).pipe(delay(300), tap(models => this._models.set(models)));
+    return this.http.get<GetSystemModelsResponse>(this.apiUrl).pipe(
+      // The API returns a paginated result, so we need to extract the data array.
+      map(response => response.systemModels.data),
+      tap(models => this._models.set(models))
+    );
   }
 
   getSolarSystemModelById(id: string): Observable<SolarSystemModel | undefined> {
-    return of(this.models().find(m => m.id === id)).pipe(delay(200));
+    // First check if we have it in the signal
+    const existing = this.models().find(m => m.id === id);
+    if (existing) {
+      return of(existing);
+    }
+    // Otherwise, fetch from the API
+    return this.http.get<SolarSystemModel>(`${this.apiUrl}/${id}`);
   }
 
   createSolarSystemModel(modelData: Omit<SolarSystemModel, 'id'>): Observable<SolarSystemModel> {
-    const newModel: SolarSystemModel = {
-        ...modelData,
-        id: `model-${Date.now()}`,
-    };
-    this._models.update(models => [...models, newModel]);
-    return of(newModel).pipe(delay(500));
+    return this.http.post<SolarSystemModel>(`${this.apiUrl}`, modelData).pipe(
+      tap(newModel => {
+        this._models.update(models => [...models, newModel]);
+      })
+    );
   }
 
   updateSolarSystemModel(updatedModel: SolarSystemModel): Observable<SolarSystemModel> {
-    this._models.update(models => models.map(m => m.id === updatedModel.id ? updatedModel : m));
-    return of(updatedModel).pipe(delay(500));
+    return this.http.put<SolarSystemModel>(`${this.apiUrl}/${updatedModel.id}`, updatedModel).pipe(
+      tap(result => {
+        this._models.update(models => models.map(m => m.id === updatedModel.id ? result : m));
+      })
+    );
   }
 
   deleteSolarSystemModel(id: string): Observable<boolean> {
-    this._models.update(models => models.filter(m => m.id !== id));
-    return of(true).pipe(delay(400));
+    return this.http.delete<{ isSuccess: boolean }>(`${this.apiUrl}/${id}`).pipe(
+      tap(response => {
+        if (response.isSuccess) {
+          this._models.update(models => models.filter(m => m.id !== id));
+        }
+      }),
+      map(response => response.isSuccess)
+    );
   }
 
   // Quotes
   getQuotesByCustomerId(customerId: string): Observable<QuoteRequest[]> {
-    return of(this.quotes().filter(q => q.customerId === customerId)).pipe(delay(400), tap(quotes => this._quotes.set(quotes)));
+    return of(this.quotes().filter(q => q.customerId === customerId)).pipe(tap(quotes => this._quotes.set(quotes)));
   }
 
   getAllQuotes(): Observable<QuoteRequest[]> {
-    return of(this.quotes()).pipe(delay(500), tap(quotes => this._quotes.set(quotes)));
+    return of(this.quotes()).pipe(tap(quotes => this._quotes.set(quotes)));
   }
 
   getQuoteById(id: string): Observable<QuoteRequest | undefined> {
-    return of(this.quotes().find(q => q.id === id)).pipe(delay(200));
+    return of(this.quotes().find(q => q.id === id));
   }
 
   hasActiveQuote(customerId: string, modelId: string): Observable<boolean> {
@@ -98,7 +123,7 @@ export class DataService {
         q.solarSystemModelId === modelId && 
         (q.status === 'Pending' || q.status === 'Processing' || q.status === 'Ready')
     );
-    return of(hasQuote).pipe(delay(100));
+    return of(hasQuote);
   }
 
   createQuote(customerId: string, modelId: string, location: LocationDetails, config: CustomConfig): Observable<QuoteRequest> {
@@ -112,7 +137,7 @@ export class DataService {
         customConfig: config,
     };
     this._quotes.update(quotes => [...quotes, newQuote]);
-    return of(newQuote).pipe(delay(800));
+    return of(newQuote);
   }
 
   updateQuoteStatus(quoteId: string, status: QuoteStatus) {
@@ -123,7 +148,7 @@ export class DataService {
   
   // Orders
   getAllOrders(): Observable<Order[]> {
-    return of(this.orders()).pipe(delay(600), tap(orders => this._orders.set(orders)));
+    return of(this.orders()).pipe(tap(orders => this._orders.set(orders)));
   }
 
   createOrder(quoteRequestId: string): Observable<Order> {
@@ -141,7 +166,7 @@ export class DataService {
         createdAt: new Date(),
     };
     this._orders.update(orders => [...orders, newOrder]);
-    return of(newOrder).pipe(delay(1000));
+    return of(newOrder);
   }
   
   updateOrderStatus(orderId: string, status: OrderStatus) {

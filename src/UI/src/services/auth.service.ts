@@ -1,8 +1,9 @@
 import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
+import { QuoteRequest } from '../models/quote-request.model';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
@@ -114,5 +115,9 @@ export class AuthService {
     }
     this._currentUser.set(null);
     this.router.navigate(['/login']);
+  }
+
+  getQuoteRequests(): Observable<QuoteRequest[]> {
+    return this.http.get<QuoteRequest[]>(`${environment.apiUrl}/quote-requests`);
   }
 }

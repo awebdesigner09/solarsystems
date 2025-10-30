@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Sales.Infrastructure.Data.Configurations
 {
@@ -11,6 +12,8 @@ namespace Sales.Infrastructure.Data.Configurations
             builder.Property(c => c.Id).HasConversion(
                 customerId => customerId.Value,
                 dbId => CustomerId.Of(dbId));
+
+            builder.Property(c => c.UserId).HasMaxLength(450);
             
             builder.Property(c => c.Name)
                 .HasMaxLength(100)

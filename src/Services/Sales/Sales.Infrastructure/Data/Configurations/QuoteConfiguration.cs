@@ -33,15 +33,19 @@ namespace Sales.Infrastructure.Data.Configurations
             });
 
             builder.Property(q => q.BasePrice)
+                .HasPrecision(18, 2)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
             builder.Property(q => q.Tax1)
+                .HasPrecision(18,2)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
             builder.Property(q => q.Tax2)
+                .HasPrecision(18, 2)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
             builder.Property(q => q.TotalPrice)
+                .HasPrecision(18, 2)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
 

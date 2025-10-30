@@ -1,4 +1,4 @@
-﻿namespace Sales.Domain.Models
+﻿﻿namespace Sales.Domain.Models
 {
     public class Customer : Entity<CustomerId>
     {
@@ -6,13 +6,16 @@
         public string Email { get; private set; } = default!;
         public Address Address { get; private set; } = default!;
 
-        public static Customer Create(CustomerId id, string name, string email, Address address)
+        public string UserId { get; private set; } = default!;
+
+        public static Customer Create(CustomerId id, string name, string email, Address address, string userId)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(name);
             ArgumentException.ThrowIfNullOrWhiteSpace(email);
             ArgumentNullException.ThrowIfNull(address);
             ArgumentException.ThrowIfNullOrWhiteSpace(address.AddressLine1);
             ArgumentException.ThrowIfNullOrWhiteSpace(address.City);
+            ArgumentException.ThrowIfNullOrWhiteSpace(userId);
             ArgumentException.ThrowIfNullOrWhiteSpace(address.State);
             ArgumentException.ThrowIfNullOrWhiteSpace(address.PostalCode);
             var customer = new Customer
@@ -20,7 +23,8 @@
                 Id = id,
                 Name = name,
                 Email = email,
-                Address = address
+                Address = address,
+                UserId = userId
             };
             return customer;
         }

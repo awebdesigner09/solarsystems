@@ -24,7 +24,8 @@ namespace Sales.API.Endpoints.SystemModel
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Delete System Model")
-            .WithDescription("Deletes a SystemModel");
+            .WithDescription("Deletes a SystemModel")
+            .RequireAuthorization("AdminPolicy");
         }
     }
 }

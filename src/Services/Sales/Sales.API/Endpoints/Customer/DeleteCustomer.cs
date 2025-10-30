@@ -18,7 +18,8 @@ namespace Sales.API.Endpoints.Customer
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Delete Customer")
-            .WithDescription("Deletes a Customer");
+            .WithDescription("Deletes a Customer")
+            .RequireAuthorization("AdminPolicy");
         }
     }
 }

@@ -25,7 +25,8 @@ namespace Sales.API.Endpoints.SystemModel
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Update System Model")
-            .WithDescription("Update an existing Solar System Model.");
+            .WithDescription("Update an existing Solar System Model.")
+            .RequireAuthorization("AdminPolicy");
         }
     }
 }

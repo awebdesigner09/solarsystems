@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 
 namespace Sales.Infrastructure.Data.Extensions
 {
@@ -20,8 +20,8 @@ namespace Sales.Infrastructure.Data.Extensions
 
                 return new List<Customer>
                 {
-                    Customer.Create(CustomerId.Of(new Guid("F019DE72-D441-4C63-AE1B-E3A93A0976AF")), "John Doe", "johndoe@email.com", address1),
-                    Customer.Create(CustomerId.Of(new Guid("5CD5BD3C-2B96-4E6D-8D5B-53DD00CD6D56")), "Jane Smith", "janesmih@email.com", address2)
+                    Customer.Create(CustomerId.Of(new Guid("F019DE72-D441-4C63-AE1B-E3A93A0976AF")), "John Doe", "johndoe@email.com", address1, "a18be9c0-aa65-4af8-bd17-00bd9344e576"),
+                    Customer.Create(CustomerId.Of(new Guid("5CD5BD3C-2B96-4E6D-8D5B-53DD00CD6D56")), "Jane Smith", "janesmith@email.com", address2, "a18be9c0-aa65-4af8-bd17-00bd9344e577")
                 };
             }
         }
@@ -39,7 +39,7 @@ namespace Sales.Infrastructure.Data.Extensions
             { Quote.Create(
                     QuoteId.Of(new Guid("833F7738-BD64-49DA-B4F4-82FCCF1E68FB")),
                     QuoteRequestId.Of(new Guid("0B062865-7015-446E-858E-FF23071D0DB7")),
-                    DateTime.UtcNow.AddDays(30),
+                    new DateTime(2025, 11, 23, 10, 51, 17, DateTimeKind.Utc),
                     Components.Of(20, 1, 1, 1),
                     15000m,
                     1200m,
@@ -48,7 +48,7 @@ namespace Sales.Infrastructure.Data.Extensions
                 Quote.Create(
                     QuoteId.Of(new Guid("11813284-63BB-494E-A2B7-BE34381FEF8B")),
                     QuoteRequestId.Of(new Guid("B12137BE-7C40-4C68-B208-06745EBDBBE3")),
-                    DateTime.UtcNow.AddDays(30),
+                    new DateTime(2025, 11, 25, 17, 18, 58, DateTimeKind.Utc),
                     Components.Of(25, 1, 1, 2),
                     22500m,
                     1800m,

@@ -21,9 +21,13 @@ namespace Sales.Infrastructure.Data.Configurations
                 .IsRequired();
 
             builder.Property(sm => sm.CapacityKW)
+                .HasPrecision(18, 2)
+                .HasColumnType("decimal(18,2)")
                 .IsRequired();
 
             builder.Property(sm => sm.BasePrice)
+                .HasPrecision(18,2)
+                .HasColumnType("decimal(18,2)")
                 .IsRequired();
         }
     }

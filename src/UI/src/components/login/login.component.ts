@@ -3,6 +3,7 @@ import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { finalize } from 'rxjs/operators';
 
@@ -15,15 +16,12 @@ import { finalize } from 'rxjs/operators';
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           
           <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-400">Email Address</label>
-            <input id="email" type="email" formControlName="email" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm" placeholder="you@example.com">
-            @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
+            <label for="username" class="block text-sm font-medium text-gray-400">Username</label>
+            <input id="username" type="text" formControlName="username" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm" placeholder="your_username">
+            @if (loginForm.get('username')?.invalid && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)) {
               <div class="text-red-400 text-sm mt-1">
-                @if (loginForm.get('email')?.errors?.['required']) {
-                  <span>Email is required.</span>
-                }
-                @if (loginForm.get('email')?.errors?.['email']) {
-                  <span>Please enter a valid email address.</span>
+                @if (loginForm.get('username')?.errors?.['required']) {
+                  <span>Username is required.</span>
                 }
               </div>
             }
@@ -75,7 +73,7 @@ export class LoginComponent {
   errorMessage = signal<string | null>(null);
 
   loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    username: ['', [Validators.required]],
     password: ['', Validators.required],
   });
 
@@ -85,19 +83,22 @@ export class LoginComponent {
     }
     this.isLoading.set(true);
     this.errorMessage.set(null);
-    const { email } = this.loginForm.value;
+    const { username, password } = this.loginForm.value;
 
-    this.authService.login(email!)
+    this.authService.login(username!, password!)
       .pipe(
         finalize(() => this.isLoading.set(false))
       )
       .subscribe({
         next: () => {
-          const targetUrl = this.authService.isAdmin() ? '/admin' : '/catalog';
-          this.router.navigate([targetUrl]);
+          // Navigation is now handled inside the authService
         },
-        error: (err) => {
-          this.errorMessage.set(err.message || 'Login failed. Please try again.');
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 401) {
+            this.errorMessage.set('Invalid username or password. Please try again.');
+          } else {
+            this.errorMessage.set('An unexpected error occurred. Please try again later.');
+          }
         }
       });
   }

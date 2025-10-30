@@ -1,10 +1,13 @@
 import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
-import { of, throwError } from 'rxjs';
-import { delay, switchMap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 const TOKEN_KEY = 'auth_token';
+
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +15,14 @@ const TOKEN_KEY = 'auth_token';
 export class AuthService {
   private router = inject(Router);
   private _currentUser = signal<User | null>(null);
+  private http = inject(HttpClient);
 
   public currentUser = this._currentUser.asReadonly();
   public isLoggedIn = computed(() => this._currentUser() !== null);
-  public isAdmin = computed(() => this._currentUser()?.role === 'admin');
+  // The role claim from the backend is a URL, so we check for 'Admin' at the end.
+  public isAdmin = computed(() => 
+    this._currentUser()?.role.endsWith('Admin') ?? false
+  );
 
   constructor() {
     this.loadToken();
@@ -32,7 +39,14 @@ export class AuthService {
       if (token) {
         try {
           const payload = JSON.parse(atob(token.split('.')[1]));
-          this._currentUser.set(payload);
+          // Map the JWT claims to our User model
+          const user: User = {
+            id: payload.sub,
+            email: payload.email,
+            name: payload.name,
+            role: payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+          };
+          this._currentUser.set(user);
         } catch (e) {
           console.error('Invalid token', e);
           localStorage.removeItem(TOKEN_KEY);
@@ -48,55 +62,52 @@ export class AuthService {
     return null;
   }
 
-  login(email: string) {
-    // Mock API call
-    const isAdmin = email.includes('admin');
-    const user: User = {
-      id: isAdmin ? 'admin-1' : 'cust-123',
-      email,
-      name: isAdmin ? 'Admin User' : 'Customer Joe',
-      role: isAdmin ? 'admin' : 'customer',
-    };
-
-    // Simulate JWT: header.payload.signature
-    const mockToken = `header.${btoa(JSON.stringify(user))}.signature`;
-    
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(TOKEN_KEY, mockToken);
-    }
-    this._currentUser.set(user);
-    const targetUrl = isAdmin ? '/admin' : '/catalog';
-    return of(true).pipe(delay(500)); // Simulate network delay
-  }
-
-  register(name: string, email: string, password: string) {
-    // Mock user creation. In a real app, this would be an API call
-    // that would also handle duplicate email checks.
-    if (email.includes('admin')) {
-      return of(false).pipe(
-          delay(500), 
-          switchMap(() => throwError(() => new Error('Cannot register with an admin email.')))
+  login(username: string, password: string): Observable<boolean> {
+    return this.http.post<{ token:string }>(`${environment.apiUrl}/auth/login`, { username, password })
+      .pipe(
+        map(response => {
+          this.saveTokenAndSetUser(response.token);
+          const targetUrl = this.isAdmin() ? '/admin' : '/catalog';
+          this.router.navigate([targetUrl]);
+          return true;
+        })
       );
-    }
-    
-    const newUser: User = {
-      id: `cust-${Date.now()}`,
-      email,
-      name,
-      role: 'customer',
-    };
-
-    // Simulate successful registration and automatically log in
-    const mockToken = `header.${btoa(JSON.stringify(newUser))}.signature`;
-    
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(TOKEN_KEY, mockToken);
-    }
-    this._currentUser.set(newUser);
-    
-    return of(true).pipe(delay(800)); // Simulate network delay
   }
 
+  private saveTokenAndSetUser(token: string) {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(TOKEN_KEY, token);
+    }
+    this.loadToken(); // Reload user from the new token
+  }
+
+  register(
+    username: string,
+    fullName: string,
+    email: string, 
+    password: string,
+    addressLine1: string,
+    addressLine2: string | null,
+    city: string,
+    state: string,
+    postalCode: string,
+    country: string | null
+  ): Observable<any> {
+    const registerPayload = {
+      username: username,
+      fullName: fullName,
+      email,
+      password,
+      addressLine1,
+      addressLine2,
+      city,
+      state,
+      postalCode,
+      country
+    };
+    return this.http.post(`${environment.apiUrl}/auth/register`, registerPayload);
+  }
+  
   logout() {
     if (typeof window !== 'undefined') {
       localStorage.removeItem(TOKEN_KEY);

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { filter, finalize, switchMap } from 'rxjs/operators';
 import { DataService } from '../../services/data.service';
+import { ToastService } from '../../services/toast.service';
 import { SolarSystemModel } from '../../models/solar-system-model.model';
 
 @Component({
@@ -84,6 +85,7 @@ export class AdminModelFormComponent implements OnInit {
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private dataService = inject(DataService);
+  private toastService = inject(ToastService);
 
   isEditMode = signal(false);
   isLoading = signal(true);
@@ -129,13 +131,16 @@ export class AdminModelFormComponent implements OnInit {
     const modelData = this.modelForm.value as Omit<SolarSystemModel, 'id'>;
 
     const save$ = this.isEditMode() 
-      ? this.dataService.updateSolarSystemModel({ ...modelData, id: this.modelId! })
+      ? this.dataService.updateSolarSystemModel({ ...modelData, id: this.modelId! }) 
+      // The form value might contain a null `id` in edit mode, so we ensure it's removed for creation.
       : this.dataService.createSolarSystemModel(modelData);
 
     save$.pipe(
       finalize(() => this.isSubmitting.set(false))
     ).subscribe(() => {
-      this.router.navigate(['/admin']);
+      const message = this.isEditMode() ? 'Model updated successfully.' : 'Model created successfully.';
+      this.toastService.show(message, 'success');
+      this.router.navigate(['/catalog']);
     });
   }
 }

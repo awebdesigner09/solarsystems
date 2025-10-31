@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { DataService } from '../../services/data.service';
+import { ToastService } from '../../services/toast.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -31,7 +32,7 @@ import { AuthService } from '../../services/auth.service';
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           @for (model of models(); track model.id) {
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
-              <img class="h-48 w-full object-cover" [src]="model.imageUrl" [alt]="model.name">
+              <img class="h-48 w-full object-cover" [src]="'assets/images/' + model.imageUrl" [alt]="model.name">
               <div class="p-6 flex flex-col flex-grow">
                 <h2 class="text-xl font-bold text-gray-100">{{ model.name }}</h2>
                 <p class="text-sm text-yellow-400">{{ model.panelType }} | {{ model.capacityKW }} kW</p>
@@ -67,6 +68,8 @@ import { AuthService } from '../../services/auth.service';
 export class SolarSystemCatalogComponent implements OnInit {
   private dataService = inject(DataService);
   authService = inject(AuthService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
 
   models = this.dataService.models;
   isLoading = signal(true);
@@ -77,9 +80,12 @@ export class SolarSystemCatalogComponent implements OnInit {
       .subscribe();
   }
 
-  deleteModel(id: string): void {
+  async deleteModel(id: string): Promise<void> {
     if (confirm('Are you sure you want to delete this model?')) {
-      this.dataService.deleteSolarSystemModel(id).subscribe();
+      const success = await firstValueFrom(this.dataService.deleteSolarSystemModel(id));
+      if (success) {
+        this.toastService.show('Model deleted successfully.', 'success');
+      }
     }
   }
 }

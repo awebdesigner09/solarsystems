@@ -256,15 +256,15 @@ namespace Sales.Infrastructure.Data.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e985b401-6966-4234-a5e3-3dd570d72c30",
+                            ConcurrencyStamp = "4b2cc126-a558-4e54-9860-9d97dac4782a",
                             Email = "admin@solarsystems.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SOLARSYSTEMS.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFjZ33J3DhJX2rxVF7YGxV+VSubQWkOVuBLdiy9oYOJvWma02ys2U/TO3mSH7ISNdA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF3treRzVGamPNMFRO3bkRLZWAAtwmjPdFLFekxhwYNt4kJr6+SE/Nh4RTAbEjfxkw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8b9eaf13-a992-4e0f-904f-9d2042df00ac",
+                            SecurityStamp = "eb6cc218-6619-49ad-807d-9c75aa6d4228",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -272,15 +272,15 @@ namespace Sales.Infrastructure.Data.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e576",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ff605fee-513f-4022-b47b-efbff1fc1f2a",
+                            ConcurrencyStamp = "839384ad-dba3-461a-8cb7-93279b163145",
                             Email = "johndoe@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EMAIL.COM",
                             NormalizedUserName = "JOHNDOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDLZevAZRFbIrCDIabFYMEvzLMn+wKGVyyLB9QfBmS/8oFqjprO97rhwHEBtKh0EEQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGtS0PWyR2d+ehexLj5rvXWEjA4KOOriSgMM5rSKc4VTa93XCaHdkPj22uSiWkXpew==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6eb547ef-fdaf-4fe4-8a5d-b490da0717f7",
+                            SecurityStamp = "4601027b-c598-448c-abc6-50dff7ce7948",
                             TwoFactorEnabled = false,
                             UserName = "johndoe"
                         },
@@ -288,15 +288,15 @@ namespace Sales.Infrastructure.Data.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e577",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "325b37da-079a-4619-9f82-54457ecbe122",
+                            ConcurrencyStamp = "cb1e5c11-3db4-42ee-a4db-0836cf7afc89",
                             Email = "janesmith@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "JANESMITH@EMAIL.COM",
                             NormalizedUserName = "JANESMITH",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOMb1zT/x4SxZ56VDW955GeTtxjQJqPt/tupYDLzHqBTHR9Wx5A1OcIDKY8ijzjN5g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH/3yJ4STdKxCZV39HL2HxG/3O8pg7SDyCf6q49exNkuCSh3Q0lVsTljzbCNv2z33A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6c5c4e60-3d4f-4ade-86b5-0423ff1d221c",
+                            SecurityStamp = "7cd7378f-6b0f-4daf-af90-3409353152b5",
                             TwoFactorEnabled = false,
                             UserName = "janesmith"
                         });
@@ -520,6 +520,16 @@ namespace Sales.Infrastructure.Data.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
@@ -533,8 +543,8 @@ namespace Sales.Infrastructure.Data.Migrations
 
                     b.Property<string>("PanelType")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

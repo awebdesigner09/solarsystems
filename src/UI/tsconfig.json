@@ -28,6 +28,7 @@
     "src/main.ts"
   ],
   "angularCompilerOptions": {
-    "disableTypeScriptVersionCheck": true
+    "disableTypeScriptVersionCheck": true,
+    "rootDir": "src"
   }
 }

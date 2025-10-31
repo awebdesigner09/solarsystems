@@ -7,8 +7,12 @@ namespace Sales.Infrastructure.Data.Extensions
         public static IEnumerable<SystemModel> SystemModels =>
             new List<SystemModel>
             {
-                SystemModel.Create(SystemModelId.Of(new Guid("90DA9DFB-EB54-42C7-BCED-93E8549213FF")), "Mono PERC", "Monocrystalline", 6m, 15000m),
-                SystemModel.Create(SystemModelId.Of(new Guid("7FBD0B40-35F0-442F-B2A7-B07AB6818278")), "Polycrystalline", "Polycrystalline", 7.5m, 22500)
+                SystemModel.Create(SystemModelId.Of(new Guid("90DA9DFB-EB54-42C7-BCED-93E8549213FF")), "Mono PERC", "Monocrystalline", 6m, 15000m,
+                    "A monocrystalline solar panel is made from a single, high-purity silicon crystal, giving it a uniform black color and high efficiency. These panels are known for being the most space-efficient type, making them ideal for limited areas, and they generally have a longer lifespan. While traditionally more expensive, their cost is decreasing, and they are very durable and perform well in low-light conditions.",
+                    "monocrystalline.png"),
+                SystemModel.Create(SystemModelId.Of(new Guid("7FBD0B40-35F0-442F-B2A7-B07AB6818278")), "Polycrystalline", "Polycrystalline", 7.5m, 22500,
+                    "A polycrystalline solar panel is a type of solar panel made from multiple silicon crystals that are melted and fused together. This process creates a less uniform, mosaic-like surface and makes them more affordable and cost-effective to produce than monocrystalline panels. While they have a lower efficiency rate than monocrystalline panels, they are still a durable and long-lasting renewable energy source.  \r\n",
+                    "polycrystalline.png")
             };
 
         public static IEnumerable<Customer> Customers

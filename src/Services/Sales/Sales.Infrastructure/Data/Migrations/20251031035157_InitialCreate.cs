@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sales.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddJaneSimthUser : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -82,9 +82,11 @@ namespace Sales.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    PanelType = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    PanelType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CapacityKW = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     BasePrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -301,9 +303,9 @@ namespace Sales.Infrastructure.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "e985b401-6966-4234-a5e3-3dd570d72c30", "admin@solarsystems.com", true, false, null, "ADMIN@SOLARSYSTEMS.COM", "ADMIN", "AQAAAAIAAYagAAAAEFjZ33J3DhJX2rxVF7YGxV+VSubQWkOVuBLdiy9oYOJvWma02ys2U/TO3mSH7ISNdA==", null, false, "8b9eaf13-a992-4e0f-904f-9d2042df00ac", false, "admin" },
-                    { "a18be9c0-aa65-4af8-bd17-00bd9344e576", 0, "ff605fee-513f-4022-b47b-efbff1fc1f2a", "johndoe@email.com", true, false, null, "JOHNDOE@EMAIL.COM", "JOHNDOE", "AQAAAAIAAYagAAAAEDLZevAZRFbIrCDIabFYMEvzLMn+wKGVyyLB9QfBmS/8oFqjprO97rhwHEBtKh0EEQ==", null, false, "6eb547ef-fdaf-4fe4-8a5d-b490da0717f7", false, "johndoe" },
-                    { "a18be9c0-aa65-4af8-bd17-00bd9344e577", 0, "325b37da-079a-4619-9f82-54457ecbe122", "janesmith@email.com", true, false, null, "JANESMITH@EMAIL.COM", "JANESMITH", "AQAAAAIAAYagAAAAEOMb1zT/x4SxZ56VDW955GeTtxjQJqPt/tupYDLzHqBTHR9Wx5A1OcIDKY8ijzjN5g==", null, false, "6c5c4e60-3d4f-4ade-86b5-0423ff1d221c", false, "janesmith" }
+                    { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "4b2cc126-a558-4e54-9860-9d97dac4782a", "admin@solarsystems.com", true, false, null, "ADMIN@SOLARSYSTEMS.COM", "ADMIN", "AQAAAAIAAYagAAAAEF3treRzVGamPNMFRO3bkRLZWAAtwmjPdFLFekxhwYNt4kJr6+SE/Nh4RTAbEjfxkw==", null, false, "eb6cc218-6619-49ad-807d-9c75aa6d4228", false, "admin" },
+                    { "a18be9c0-aa65-4af8-bd17-00bd9344e576", 0, "839384ad-dba3-461a-8cb7-93279b163145", "johndoe@email.com", true, false, null, "JOHNDOE@EMAIL.COM", "JOHNDOE", "AQAAAAIAAYagAAAAEGtS0PWyR2d+ehexLj5rvXWEjA4KOOriSgMM5rSKc4VTa93XCaHdkPj22uSiWkXpew==", null, false, "4601027b-c598-448c-abc6-50dff7ce7948", false, "johndoe" },
+                    { "a18be9c0-aa65-4af8-bd17-00bd9344e577", 0, "cb1e5c11-3db4-42ee-a4db-0836cf7afc89", "janesmith@email.com", true, false, null, "JANESMITH@EMAIL.COM", "JANESMITH", "AQAAAAIAAYagAAAAEH/3yJ4STdKxCZV39HL2HxG/3O8pg7SDyCf6q49exNkuCSh3Q0lVsTljzbCNv2z33A==", null, false, "7cd7378f-6b0f-4daf-af90-3409353152b5", false, "janesmith" }
                 });
 
             migrationBuilder.InsertData(

@@ -23,8 +23,8 @@ namespace Sales.API.Endpoints.SystemModel
             .Produces<CreateSystemModelResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("Create SystemModel")
-            .WithDescription("Creates new Solar System model").
-            RequireAuthorization("AdminPolicy");
+            .WithDescription("Creates new Solar System model")
+            .RequireAuthorization("AdminPolicy");
         }
     }
 }

@@ -5,6 +5,8 @@
         string Name,
         string PanelType,
         decimal CapacityKW,
-        decimal BasePrice
+        decimal BasePrice,
+        string Description,
+        string ImageUrl
     );
 }

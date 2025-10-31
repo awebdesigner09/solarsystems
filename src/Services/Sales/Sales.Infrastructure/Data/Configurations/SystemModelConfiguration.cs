@@ -17,7 +17,7 @@ namespace Sales.Infrastructure.Data.Configurations
                 .IsRequired();
 
             builder.Property(sm => sm.PanelType)
-                .HasMaxLength(500)
+                .HasMaxLength(50)
                 .IsRequired();
 
             builder.Property(sm => sm.CapacityKW)
@@ -28,6 +28,14 @@ namespace Sales.Infrastructure.Data.Configurations
             builder.Property(sm => sm.BasePrice)
                 .HasPrecision(18,2)
                 .HasColumnType("decimal(18,2)")
+                .IsRequired();
+
+            builder.Property(sm => sm.Description)
+                .HasMaxLength(2000)
+                .IsRequired();
+
+            builder.Property(sm => sm.ImageUrl)
+                .HasMaxLength(100)
                 .IsRequired();
         }
     }

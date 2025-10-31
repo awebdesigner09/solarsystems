@@ -18,7 +18,9 @@
                 Name: systemModel.Name,
                 PanelType: systemModel.PanelType,
                 CapacityKW: systemModel.CapacityKW,
-                BasePrice: systemModel.BasePrice);
+                BasePrice: systemModel.BasePrice,
+                Description: systemModel.Description,
+                ImageUrl: systemModel.ImageUrl);
         }
     }
 }

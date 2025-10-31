@@ -31,7 +31,7 @@ import { AuthService } from '../../services/auth.service';
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           @for (model of models(); track model.id) {
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
-              <img class="h-48 w-full object-cover" [src]="model.imageUrl" [alt]="model.name">
+              <img class="h-48 w-full object-cover" [src]="'assets/images/' + model.imageUrl" [alt]="model.name">
               <div class="p-6 flex flex-col flex-grow">
                 <h2 class="text-xl font-bold text-gray-100">{{ model.name }}</h2>
                 <p class="text-sm text-yellow-400">{{ model.panelType }} | {{ model.capacityKW }} kW</p>

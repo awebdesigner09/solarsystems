@@ -13,6 +13,8 @@ namespace Sales.Application.Sales.Commands.CreateSystemModel
             RuleFor(x => x.SystemModel.PanelType).NotEmpty().WithMessage("PanelType cannot be empty").MaximumLength(50).WithMessage("PanelType cannot exceed 50 characters");
             RuleFor(x => x.SystemModel.BasePrice).GreaterThan(0).WithMessage("BasePrice must be greater than 0");
             RuleFor(x => x.SystemModel.CapacityKW).GreaterThan(0).WithMessage("CapacityKW must be greater than 0");
+            RuleFor(x => x.SystemModel.Description).MaximumLength(2000).WithMessage("Description cannot exceed 2000 characters");
+            RuleFor(x => x.SystemModel.ImageUrl).MaximumLength(100).WithMessage("ImageUrl cannot exceed 100 characters");
         }
     }
 }

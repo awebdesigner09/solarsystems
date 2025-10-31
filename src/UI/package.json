@@ -20,7 +20,7 @@
     "@angular/router": "^20.3.7",
     "@microsoft/signalr": "^9.0.6",
     "rxjs": "^7.8.2",
-    "tailwindcss": "latest"
+    "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

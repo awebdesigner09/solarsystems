@@ -19,7 +19,8 @@ namespace Sales.API.Endpoints.QuoteRequest
             .Produces<CreateQuoteRequestResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("Create Quote Request")
-            .WithDescription("Creates new Quote Request");
+            .WithDescription("Creates new Quote Request")
+            .RequireAuthorization("CustomerPolicy");
         }
     }
 }

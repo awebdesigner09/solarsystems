@@ -18,7 +18,8 @@ namespace Sales.API.Endpoints.QuoteRequest
             .Produces<GetQuoteRequestsResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("Get Quote Requests")
-            .WithDescription("Retrieves a paginated list of Quote Requests");
+            .WithDescription("Retrieves a paginated list of Quote Requests")
+            .RequireAuthorization("AdminPolicy");
         }
     }
 }

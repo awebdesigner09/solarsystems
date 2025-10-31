@@ -24,7 +24,9 @@ namespace Sales.Application.Sales.Commands.CreateSystemModel
                 name: dto.Name,
                 panelType: dto.PanelType,
                 capacityKW: dto.CapacityKW,
-                basePrice: dto.BasePrice
+                basePrice: dto.BasePrice,
+                description: dto.Description,
+                imageUrl: dto.ImageUrl
                 );
             return newSystemModel;
         }

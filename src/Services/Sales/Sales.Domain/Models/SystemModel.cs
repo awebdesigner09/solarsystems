@@ -8,8 +8,10 @@ namespace Sales.Domain.Models
         public string PanelType { get; private set; } = default!;
         public decimal CapacityKW { get; private set; } = default!;
         public decimal BasePrice { get; private set; } = default!;
+        public string Description { get; private set; } = default!;
+        public string ImageUrl { get; private set; } = default!;
 
-        public static SystemModel Create(SystemModelId id, string name, string panelType, decimal capacityKW, decimal basePrice)
+        public static SystemModel Create(SystemModelId id, string name, string panelType, decimal capacityKW, decimal basePrice,string description,string imageUrl)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(name);
             ArgumentException.ThrowIfNullOrWhiteSpace(panelType);
@@ -22,12 +24,14 @@ namespace Sales.Domain.Models
                 Name = name,
                 PanelType = panelType,
                 CapacityKW = capacityKW,
-                BasePrice = basePrice
+                BasePrice = basePrice,
+                Description = description,
+                ImageUrl = imageUrl
             };
 
             return systemModel;
         }
-        public void Update(string name, string panelType, decimal capacityKW, decimal basePrice)
+        public void Update(string name, string panelType, decimal capacityKW, decimal basePrice, string description, string imageUrl)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(name);
             ArgumentException.ThrowIfNullOrWhiteSpace(panelType);
@@ -37,6 +41,8 @@ namespace Sales.Domain.Models
             PanelType = panelType;
             CapacityKW = capacityKW;
             BasePrice = basePrice;
+            Description = description;
+            ImageUrl = imageUrl;
         }
 
     }

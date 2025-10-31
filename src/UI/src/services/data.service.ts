@@ -15,28 +15,6 @@ interface PaginatedResult<T> {
   data: T[];
 }
 
-interface GetSystemModelsResponse {
-  systemModels: PaginatedResult<SolarSystemModel>;
-}
-
-const MOCK_QUOTES: QuoteRequest[] = [
-    {
-        id: 'quote-1', customerId: 'cust-123', solarSystemModelId: 'model-1', status: 'Ready', createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-        locationDetails: { address: '123 Sun St', city: 'Solaris', state: 'CA', zipCode: '90210' },
-        customConfig: { batteryStorage: true, evCharger: false }
-    },
-    {
-        id: 'quote-2', customerId: 'cust-123', solarSystemModelId: 'model-3', status: 'Processing', createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-        locationDetails: { address: '456 Bright Ave', city: 'Luminara', state: 'NV', zipCode: '89101' },
-        customConfig: { batteryStorage: true, evCharger: true, notes: 'Interested in financing options.' }
-    },
-];
-
-const MOCK_ORDERS: Order[] = [
-    { id: 'order-1', quoteRequestId: 'quote-old-1', status: 'Confirmed', createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000) }
-];
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -53,17 +31,16 @@ export class DataService {
   public readonly orders = this._orders.asReadonly();
 
   constructor() {
-    this._quotes.set(MOCK_QUOTES);
-    this._orders.set(MOCK_ORDERS);
-    this.getSolarSystemModels().subscribe(); // Fetch models on service initialization
+    // It's better to initiate data fetching from the component that needs it.
   }
   
   // Models
   getSolarSystemModels(): Observable<SolarSystemModel[]> {
-    return this.http.get<GetSystemModelsResponse>(this.apiUrl).pipe(
-      // The API returns a paginated result, so we need to extract the data array.
-      map(response => response.systemModels.data),
-      tap(models => this._models.set(models))
+    const params = { PageIndex: '0', pageSize: '10' };
+    // The API nests the paginated result under a `systemModels` property.
+    return this.http.get<{ systemModels: PaginatedResult<SolarSystemModel> }>(this.apiUrl, { params }).pipe(
+      map(response => response?.systemModels?.data || []),
+      tap(models => this._models.set(models || []))
     );
   }
 
@@ -78,7 +55,8 @@ export class DataService {
   }
 
   createSolarSystemModel(modelData: Omit<SolarSystemModel, 'id'>): Observable<SolarSystemModel> {
-    return this.http.post<SolarSystemModel>(`${this.apiUrl}`, modelData).pipe(
+    const payload = { SystemModel: modelData };
+    return this.http.post<SolarSystemModel>(`${this.apiUrl}`, payload).pipe(
       tap(newModel => {
         this._models.update(models => [...models, newModel]);
       })
@@ -86,7 +64,8 @@ export class DataService {
   }
 
   updateSolarSystemModel(updatedModel: SolarSystemModel): Observable<SolarSystemModel> {
-    return this.http.put<SolarSystemModel>(`${this.apiUrl}/${updatedModel.id}`, updatedModel).pipe(
+    const payload = { SystemModel: updatedModel };
+    return this.http.put<SolarSystemModel>(`${this.apiUrl}`, payload).pipe(
       tap(result => {
         this._models.update(models => models.map(m => m.id === updatedModel.id ? result : m));
       })
@@ -94,27 +73,33 @@ export class DataService {
   }
 
   deleteSolarSystemModel(id: string): Observable<boolean> {
-    return this.http.delete<{ isSuccess: boolean }>(`${this.apiUrl}/${id}`).pipe(
-      tap(response => {
-        if (response.isSuccess) {
-          this._models.update(models => models.filter(m => m.id !== id));
+    return this.http.delete<any>(`${this.apiUrl}/${id}`, { observe: 'response' }).pipe(
+      map(response => {
+        const isSuccess = response.status >= 200 && response.status < 300;
+        if (isSuccess) {
+            this._models.update(models => models.filter(m => m.id !== id));
         }
+        return isSuccess;
       }),
-      map(response => response.isSuccess)
     );
   }
 
   // Quotes
   getQuotesByCustomerId(customerId: string): Observable<QuoteRequest[]> {
-    return of(this.quotes().filter(q => q.customerId === customerId)).pipe(tap(quotes => this._quotes.set(quotes)));
+    // This should be a real API call in a real app
+    return this.http.get<QuoteRequest[]>(`${environment.apiUrl}/quote-requests`).pipe(tap(quotes => this._quotes.set(quotes)));
   }
 
   getAllQuotes(): Observable<QuoteRequest[]> {
-    return of(this.quotes()).pipe(tap(quotes => this._quotes.set(quotes)));
+    return this.http.get<PaginatedResult<QuoteRequest>>(`${environment.apiUrl}/quote-requests`).pipe(
+      map(response => response?.data || []),
+      tap(quotes => this._quotes.set(quotes || []))
+    );
   }
 
   getQuoteById(id: string): Observable<QuoteRequest | undefined> {
-    return of(this.quotes().find(q => q.id === id));
+    // This should be a real API call in a real app
+    return this.http.get<QuoteRequest>(`${environment.apiUrl}/quote-requests/${id}`);
   }
 
   hasActiveQuote(customerId: string, modelId: string): Observable<boolean> {
@@ -127,51 +112,35 @@ export class DataService {
   }
 
   createQuote(customerId: string, modelId: string, location: LocationDetails, config: CustomConfig): Observable<QuoteRequest> {
-    const newQuote: QuoteRequest = {
-        id: `quote-${Date.now()}`,
-        customerId,
-        solarSystemModelId: modelId,
-        status: 'Pending',
-        createdAt: new Date(),
-        locationDetails: location,
-        customConfig: config,
-    };
-    this._quotes.update(quotes => [...quotes, newQuote]);
-    return of(newQuote);
+    const payload = { solarSystemModelId: modelId, locationDetails: location, customConfig: config };
+    return this.http.post<QuoteRequest>(`${environment.apiUrl}/quote-requests`, payload).pipe(
+      tap(newQuote => this._quotes.update(quotes => [...quotes, newQuote]))
+    );
   }
 
   updateQuoteStatus(quoteId: string, status: QuoteStatus) {
-    this._quotes.update(quotes => quotes.map(q => 
-        q.id === quoteId ? { ...q, status } : q
-    ));
+    // This would be a PUT/PATCH request in a real app
+    this.http.put(`${environment.apiUrl}/quote-requests/${quoteId}/status`, { status }).subscribe(() => {
+        this._quotes.update(quotes => quotes.map(q => q.id === quoteId ? { ...q, status } : q));
+    });
   }
   
   // Orders
   getAllOrders(): Observable<Order[]> {
-    return of(this.orders()).pipe(tap(orders => this._orders.set(orders)));
-  }
-
-  createOrder(quoteRequestId: string): Observable<Order> {
-    const quote = this.quotes().find(q => q.id === quoteRequestId);
-    if (!quote || quote.status !== 'Ready') {
-      return throwError(() => new Error('Quote is not ready for ordering.'));
-    }
-    
-    this.updateQuoteStatus(quoteRequestId, 'Expired'); // Mark quote as used
-
-    const newOrder: Order = {
-        id: `order-${Date.now()}`,
-        quoteRequestId,
-        status: 'Processing',
-        createdAt: new Date(),
-    };
-    this._orders.update(orders => [...orders, newOrder]);
-    return of(newOrder);
+    return this.http.get<Order[]>(`${environment.apiUrl}/orders`).pipe(tap(orders => this._orders.set(orders)));
   }
   
+  createOrder(quoteRequestId: string): Observable<Order> {
+    return this.http.post<Order>(`${environment.apiUrl}/orders`, { quoteRequestId }).pipe(
+      tap(newOrder => {
+        this._orders.update(orders => [...orders, newOrder]);
+      })
+    );
+  }
+
   updateOrderStatus(orderId: string, status: OrderStatus) {
-    this._orders.update(orders => orders.map(o => 
-        o.id === orderId ? { ...o, status } : o
-    ));
+    this.http.put(`${environment.apiUrl}/orders/${orderId}/status`, { status }).subscribe(() => {
+      this._orders.update(orders => orders.map(o => o.id === orderId ? { ...o, status } : o));
+    });
   }
 }

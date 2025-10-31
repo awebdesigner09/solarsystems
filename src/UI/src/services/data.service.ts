@@ -2,8 +2,7 @@ import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError, tap, map } from 'rxjs';
 import { SolarSystemModel } from '../models/solar-system-model.model';
-// Fix: Import LocationDetails from customer.model.ts as it is not exported from quote-request.model.ts
-import { QuoteRequest, QuoteStatus, CustomConfig } from '../models/quote-request.model';
+import { AdminQuoteRequest, QuoteRequest, QuoteStatus } from '../models/quote-request.model';
 import { LocationDetails } from '../models/customer.model';
 import { Order, OrderStatus } from '../models/order.model';
 import { environment } from '../environments/environment';
@@ -15,6 +14,31 @@ interface PaginatedResult<T> {
   data: T[];
 }
 
+export interface OrderSummary {
+  id: string;
+  quoteId: string;
+  systemModelName: string;
+  city: string;
+  state: string;
+  totalPrice: number;
+  orderDate: string;
+  orderStatus: OrderStatus;
+  statusDate: string;
+}
+
+const quoteStatusMap: { [key: number]: QuoteStatus } = {
+  1: 'Pending',
+  2: 'Processing',
+  3: 'Ready',
+  4: 'Expired'
+};
+
+const orderStatusMap: { [key: number]: OrderStatus } = {
+  1: 'Processing',
+  2: 'Confirmed',
+  3: 'Cancelled'
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,10 +49,12 @@ export class DataService {
   private readonly _models = signal<SolarSystemModel[]>([]);
   private readonly _quotes = signal<QuoteRequest[]>([]);
   private readonly _orders = signal<Order[]>([]);
+  private readonly _orderSummaries = signal<OrderSummary[]>([]);
 
   public readonly models = this._models.asReadonly();
   public readonly quotes = this._quotes.asReadonly();
   public readonly orders = this._orders.asReadonly();
+  public readonly orderSummaries = this._orderSummaries.asReadonly();
 
   constructor() {
     // It's better to initiate data fetching from the component that needs it.
@@ -91,8 +117,18 @@ export class DataService {
   }
 
   getAllQuotes(): Observable<QuoteRequest[]> {
-    return this.http.get<PaginatedResult<QuoteRequest>>(`${environment.apiUrl}/quote-requests`).pipe(
-      map(response => response?.data || []),
+    const params = { PageIndex: '0', pageSize: '10' };
+    return this.http.get<{ quoteRequests: PaginatedResult<AdminQuoteRequest> }>(`${environment.apiUrl}/quote-requests`, { params }).pipe(
+      map(response => {
+        const adminQuotes = response?.quoteRequests?.data || [];
+        return adminQuotes.map(aq => ({
+          id: aq.id,
+          customerId: aq.customerId,
+          solarSystemModelId: aq.systemModelId, // Map from systemModelId
+          status: quoteStatusMap[aq.status] ?? 'Pending', // Map from number to string
+          customConfig: aq.customConfig
+        } as QuoteRequest));
+      }),
       tap(quotes => this._quotes.set(quotes || []))
     );
   }
@@ -111,7 +147,7 @@ export class DataService {
     return of(hasQuote);
   }
 
-  createQuote(customerId: string, modelId: string, location: LocationDetails, config: CustomConfig): Observable<QuoteRequest> {
+  createQuote(customerId: string, modelId: string, location: LocationDetails, config: any): Observable<QuoteRequest> {
     const payload = { solarSystemModelId: modelId, locationDetails: location, customConfig: config };
     return this.http.post<QuoteRequest>(`${environment.apiUrl}/quote-requests`, payload).pipe(
       tap(newQuote => this._quotes.update(quotes => [...quotes, newQuote]))
@@ -130,6 +166,28 @@ export class DataService {
     return this.http.get<Order[]>(`${environment.apiUrl}/orders`).pipe(tap(orders => this._orders.set(orders)));
   }
   
+  getAllOrderSummaries(): Observable<OrderSummary[]> {
+    const params = { pageIndex: '0', pageSize: '10' };
+    // The API nests the paginated result under an `ordersSummary` property.
+    return this.http.get<{ ordersSummary: PaginatedResult<any> }>(`${environment.apiUrl}/orders-summary`, { params }).pipe(
+      map(response => {
+        const summaries = response?.ordersSummary?.data || [];
+        return summaries.map(summary => ({
+          id: summary.id,
+          quoteId: summary.quoteId,
+          systemModelName: summary.baseModel, // Map from baseModel to systemModelName
+          city: summary.city,
+          state: summary.state,
+          totalPrice: summary.totalPrice,
+          orderDate: summary.orderDate,
+          orderStatus: orderStatusMap[summary.orderStatus] ?? 'Processing', // Map enum number to string
+          statusDate: summary.statusDate
+        }));
+      }),
+      tap(summaries => this._orderSummaries.set(summaries || []))
+    );
+  }
+
   createOrder(quoteRequestId: string): Observable<Order> {
     return this.http.post<Order>(`${environment.apiUrl}/orders`, { quoteRequestId }).pipe(
       tap(newOrder => {

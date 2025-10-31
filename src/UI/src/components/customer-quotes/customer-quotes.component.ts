@@ -44,15 +44,14 @@ interface QuoteViewModel extends QuoteRequest {
                     <p class="text-2xl font-light text-green-400 mt-2">{{ quote.totalPrice | currency:'USD':'symbol':'1.0-0' }}</p>
                   </div>
                 </div>
+                @if(quote.customConfig) {
                 <div class="mt-4 pt-4 border-t border-gray-700">
-                  <h3 class="font-semibold text-gray-300">Details:</h3>
-                  <ul class="list-disc list-inside text-gray-400 mt-2 text-sm">
-                    <li>Address: {{ quote.locationDetails.address }}, {{ quote.locationDetails.city }}, {{ quote.locationDetails.state }} {{ quote.locationDetails.zipCode }}</li>
-                    @if(quote.customConfig.batteryStorage) { <li>Includes Battery Storage</li> }
-                    @if(quote.customConfig.evCharger) { <li>Includes EV Charger</li> }
-                    @if(quote.customConfig.notes) { <li class="italic">Notes: {{ quote.customConfig.notes }}</li> }
-                  </ul>
+                  <h3 class="font-semibold text-gray-300">Custom Configuration:</h3>
+                  <p class="text-gray-400 mt-2 text-sm italic">
+                    {{ quote.customConfig }}
+                  </p>
                 </div>
+                }
 
                 @if (quote.status === 'Ready') {
                   <div class="mt-4 text-right">
@@ -102,11 +101,10 @@ export class CustomerQuotesComponent implements OnInit {
       const viewModels = quotes.map(quote => {
         const model = allModels.find(m => m.id === quote.solarSystemModelId);
         let totalPrice = model?.basePrice || 0;
-        if (quote.customConfig.batteryStorage) totalPrice += 8000;
-        if (quote.customConfig.evCharger) totalPrice += 1500;
+        // Price calculation based on customConfig is removed as it's now a string.
+        // This should be handled by the backend.
         return { ...quote, model, totalPrice };
       });
-      this.quotesWithModels.set(viewModels.sort((a,b) => b.createdAt.getTime() - a.createdAt.getTime()));
     });
   }
 

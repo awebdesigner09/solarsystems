@@ -3,7 +3,6 @@ import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@ang
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap, finalize, map, filter } from 'rxjs/operators';
-
 import { DataService } from '../../services/data.service';
 import { QuoteRequest } from '../../models/quote-request.model';
 import { SolarSystemModel } from '../../models/solar-system-model.model';
@@ -35,19 +34,12 @@ interface OrderViewModel {
                 <span class="px-3 py-1 text-sm font-semibold rounded-full bg-green-900/70 text-green-300">
                     Quote Ready
                 </span>
-             </div>
-             <p class="text-gray-400 text-sm">Quote created on {{ viewModel()?.quote.createdAt | date:'longDate' }}</p>
-            <div class="pt-4 border-t border-gray-700">
-              <h3 class="font-semibold text-gray-300">Installation Address:</h3>
-              <p class="text-gray-400">{{ viewModel()?.quote.locationDetails.address }}, {{ viewModel()?.quote.locationDetails.city }}</p>
-            </div>
+             </div>           
              <div class="pt-4 border-t border-gray-700">
-              <h3 class="font-semibold text-gray-300">Included Options:</h3>
-              <ul class="list-disc list-inside text-gray-400 mt-2 text-sm">
-                @if(viewModel()?.quote.customConfig.batteryStorage) { <li>Battery Storage</li> }
-                @if(viewModel()?.quote.customConfig.evCharger) { <li>EV Charger</li> }
-                @if(!viewModel()?.quote.customConfig.batteryStorage && !viewModel()?.quote.customConfig.evCharger) { <li>Standard Installation</li> }
-              </ul>
+              <h3 class="font-semibold text-gray-300">Custom Configuration:</h3>
+              <p class="text-gray-400 mt-2 text-sm">
+                {{ viewModel()?.quote.customConfig || 'Standard Installation' }}
+              </p>
             </div>
              <div class="pt-4 border-t border-gray-700 text-right">
                 <p class="text-gray-400">Total Price</p>
@@ -89,7 +81,7 @@ interface OrderViewModel {
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, DatePipe, CurrencyPipe],
+  imports: [CommonModule, RouterLink, CurrencyPipe],
 })
 export class OrderPlacementComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -111,10 +103,9 @@ export class OrderPlacementComponent implements OnInit {
         return this.dataService.getSolarSystemModelById(quote.solarSystemModelId).pipe(
           map(model => {
             if (!model) return undefined;
-            let totalPrice = model.basePrice;
-            if (quote.customConfig.batteryStorage) totalPrice += 8000;
-            if (quote.customConfig.evCharger) totalPrice += 1500;
-            return { quote, model, totalPrice };
+            // Price calculation logic is removed as customConfig is now a string.
+            // This should be handled by the backend.
+            return { quote, model, totalPrice: model.basePrice };
           })
         );
       }),

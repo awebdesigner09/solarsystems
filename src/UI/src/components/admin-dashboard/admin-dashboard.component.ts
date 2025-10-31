@@ -6,16 +6,9 @@ import { finalize } from 'rxjs/operators';
 
 import { DataService } from '../../services/data.service';
 import { QuoteRequest } from '../../models/quote-request.model';
-import { Order } from '../../models/order.model';
-import { SolarSystemModel } from '../../models/solar-system-model.model';
 
 interface QuoteViewModel extends QuoteRequest {
   modelName?: string;
-}
-
-interface OrderViewModel extends Order {
-    modelName?: string;
-    customerId: string;
 }
 
 @Component({
@@ -49,22 +42,22 @@ interface OrderViewModel extends Order {
                 <thead class="bg-gray-700/50">
                   <tr>
                     <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Model</th>
-                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Customer ID</th>
+                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Customer ID</th>                    
+                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">CustomConfig</th>
                     <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
-                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date</th>
                   </tr>
                 </thead>
                 <tbody class="bg-gray-800 divide-y divide-gray-700">
                   @for (quote of quoteViewModels(); track quote.id) {
                     <tr>
                       <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-100">{{ quote.modelName }}</td>
-                      <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400 font-mono">{{ quote.customerId }}</td>
+                      <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400 font-mono">{{ quote.customerId }}</td>                      
+                      <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400">{{ quote.customConfig }}</td>
                       <td class="px-4 py-4 whitespace-nowrap text-sm">
                         <span [class]="'px-2 inline-flex text-xs leading-5 font-semibold rounded-full ' + statusBadgeColor(quote.status)">
                           {{ quote.status }}
                         </span>
                       </td>
-                      <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400">{{ quote.createdAt | date:'short' }}</td>
                     </tr>
                   }
                 </tbody>
@@ -78,28 +71,30 @@ interface OrderViewModel extends Order {
         <!-- Orders Section -->
         <div class="bg-gray-800 rounded-lg shadow-md p-6">
           <h2 class="text-2xl font-semibold mb-4 text-gray-200">Active Orders</h2>
-          @if (orderViewModels().length > 0) {
+          @if (orderSummaries().length > 0) {
             <div class="overflow-x-auto">
               <table class="min-w-full divide-y divide-gray-700">
                 <thead class="bg-gray-700/50">
                   <tr>
                     <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Order ID</th>
-                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Model</th>
+                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">System Model</th>
+                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Location</th>
                     <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
-                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date</th>
+                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Order Date</th>
                   </tr>
                 </thead>
                 <tbody class="bg-gray-800 divide-y divide-gray-700">
-                  @for (order of orderViewModels(); track order.id) {
+                  @for (order of orderSummaries(); track order.id) {
                     <tr>
                       <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400 font-mono">{{ order.id }}</td>
-                      <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-100">{{ order.modelName }}</td>
+                      <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-100">{{ order.systemModelName }}</td>
+                      <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400">{{ order.city }}, {{ order.state }}</td>
                       <td class="px-4 py-4 whitespace-nowrap text-sm">
-                         <span [class]="'px-2 inline-flex text-xs leading-5 font-semibold rounded-full ' + statusBadgeColor(order.status)">
-                          {{ order.status }}
+                         <span [class]="'px-2 inline-flex text-xs leading-5 font-semibold rounded-full ' + statusBadgeColor(order.orderStatus)">
+                          {{ order.orderStatus }}
                         </span>
                       </td>
-                      <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400">{{ order.createdAt | date:'short' }}</td>
+                      <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-400">{{ order.orderDate | date:'short' }}</td>
                     </tr>
                   }
                 </tbody>
@@ -121,7 +116,7 @@ export class AdminDashboardComponent implements OnInit {
   
   // Signals from service
   private quotes = this.dataService.quotes;
-  private orders = this.dataService.orders;
+  orderSummaries = this.dataService.orderSummaries;
   private models = this.dataService.models;
 
   quoteViewModels = computed<QuoteViewModel[]>(() => {
@@ -132,31 +127,18 @@ export class AdminDashboardComponent implements OnInit {
             ...quote,
             modelName: allModels.find(m => m.id === quote.solarSystemModelId)?.name || 'Unknown',
         }))
-        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+        .sort((a, b) => {
+            const aTime = a.createdAt?.getTime() ?? 0;
+            const bTime = b.createdAt?.getTime() ?? 0;
+            return bTime - aTime;
+        });
   });
   
-  orderViewModels = computed<OrderViewModel[]>(() => {
-      const allOrders = this.orders();
-      const allQuotes = this.quotes();
-      const allModels = this.models();
-      return allOrders
-        .map(order => {
-            const quote = allQuotes.find(q => q.id === order.quoteRequestId);
-            const model = quote ? allModels.find(m => m.id === quote.solarSystemModelId) : undefined;
-            return {
-                ...order,
-                modelName: model?.name || 'Unknown',
-                customerId: quote?.customerId || 'N/A'
-            };
-        })
-        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  });
-
   ngOnInit(): void {
     this.isLoading.set(true);
     combineLatest([
         this.dataService.getAllQuotes(),
-        this.dataService.getAllOrders(),
+        this.dataService.getAllOrderSummaries(),
         this.dataService.getSolarSystemModels()
     ]).pipe(
         finalize(() => this.isLoading.set(false))
@@ -172,6 +154,7 @@ export class AdminDashboardComponent implements OnInit {
       case 'Expired': return 'bg-gray-700 text-gray-300';
       // Order statuses
       case 'Confirmed': return 'bg-green-800/70 text-green-200';
+      // 'Processing' for Orders can share the same style as for Quotes
       case 'Cancelled': return 'bg-red-900/70 text-red-300';
       default: return 'bg-gray-700 text-gray-300';
     }

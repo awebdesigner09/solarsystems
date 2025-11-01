@@ -55,7 +55,7 @@ import { SolarSystemModel } from '../../models/solar-system-model.model';
                 <input id="state" formControlName="state" [class]="fieldClasses('state')">
               </div>
               <div>
-                <label for="zipCode" class="block text-sm font-medium text-gray-400">ZIP Code</label>
+                <label for="zipCode" class="block text-sm font-medium text-gray-400">Postal Code</label>
                 <input id="zipCode" formControlName="zipCode" [class]="fieldClasses('zipCode')">
               </div>
 
@@ -146,14 +146,15 @@ export class QuoteRequestFormComponent implements OnInit {
       filter(params => params.has('modelId')),
       switchMap(params => {
         const modelId = params.get('modelId')!;
-        const currentUser = this.authService.currentUser();
+        const currentUser = this.authService.currentUser(); // Get the full user object
         
         if (!currentUser) {
             return of({ model: undefined, hasQuote: false });
         }
         
         const model$ = this.dataService.getSolarSystemModelById(modelId);
-        const hasQuote$ = this.dataService.hasActiveQuote(currentUser.id, modelId);
+        // Use customerId for checking quotes
+        const hasQuote$ = this.dataService.hasActiveQuote(currentUser.customerId!, modelId);
         
         return combineLatest({ model: model$, hasQuote: hasQuote$ });
       }),
@@ -165,7 +166,8 @@ export class QuoteRequestFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.quoteForm.invalid || !this.model() || !this.authService.currentUser()) {
+    const currentUser = this.authService.currentUser();
+    if (this.quoteForm.invalid || !this.model() || !currentUser?.customerId) {
       return;
     }
 
@@ -181,11 +183,11 @@ export class QuoteRequestFormComponent implements OnInit {
     
     const config = {
       batteryStorage: formValue.batteryStorage!,
-      evCharger: formValue.evCharger!,
-      notes: formValue.notes || undefined,
+      evCharger: formValue.evCharger!
     };
+    const notes = formValue.notes || undefined;
     
-    this.dataService.createQuote(this.authService.currentUser()!.id, this.model()!.id, location, config)
+    this.dataService.createQuote(currentUser.customerId, this.model()!.id, location, config, notes)
       .pipe(finalize(() => this.isSubmitting.set(false)))
       .subscribe(() => {
         this.router.navigate(['/quotes']);

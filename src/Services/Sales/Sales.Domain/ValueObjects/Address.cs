@@ -13,7 +13,7 @@ namespace Sales.Domain.ValueObjects
 
         protected Address() { }
 
-        private Address(string addressLine1, string? addressLine2, string city, string state, string postalCode, string country)
+        private Address(string addressLine1, string? addressLine2, string city, string state, string postalCode, string? country)
         {
             AddressLine1 = addressLine1;
             AddressLine2 = addressLine2;
@@ -23,7 +23,7 @@ namespace Sales.Domain.ValueObjects
             Country = country?? "USA";
         }
 
-        public static Address Of(string addressLine1, string? addressLine2, string city, string state, string postalCode, string country)
+        public static Address Of(string addressLine1, string? addressLine2, string city, string state, string postalCode, string? country = null)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(addressLine1);
             ArgumentException.ThrowIfNullOrWhiteSpace(city);

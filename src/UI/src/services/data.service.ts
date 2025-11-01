@@ -86,7 +86,7 @@ export class DataService {
       tap(newModel => {
         this._models.update(models => [...models, newModel]);
       })
-    );
+    ); 
   }
 
   updateSolarSystemModel(updatedModel: SolarSystemModel): Observable<SolarSystemModel> {
@@ -112,8 +112,21 @@ export class DataService {
 
   // Quotes
   getQuotesByCustomerId(customerId: string): Observable<QuoteRequest[]> {
-    // This should be a real API call in a real app
-    return this.http.get<QuoteRequest[]>(`${environment.apiUrl}/quote-requests`).pipe(tap(quotes => this._quotes.set(quotes)));
+    // The API nests the result under a `quoteRequests` property.
+    return this.http.get<{ quoteRequests: QuoteRequest[] }>(`${environment.apiUrl}/quote-requests/${customerId}`).pipe(
+      map(response => {
+        const adminQuotes = response?.quoteRequests || [];
+        return adminQuotes.map(aq => ({
+          id: aq.id,
+          customerId: aq.customerId,
+          systemModelId: aq.systemModelId, // Map from systemModelId
+          status: quoteStatusMap[aq.status] ?? 'Pending', // Map from number to string
+          customConfig: aq.customConfig,
+          createdAt: aq.createdAt
+        } as QuoteRequest));
+      }),
+      tap(quotes => this._quotes.set(quotes || []))
+    );
   }
 
   getAllQuotes(): Observable<QuoteRequest[]> {
@@ -124,7 +137,7 @@ export class DataService {
         return adminQuotes.map(aq => ({
           id: aq.id,
           customerId: aq.customerId,
-          solarSystemModelId: aq.systemModelId, // Map from systemModelId
+          systemModelId: aq.systemModelId, // Map from systemModelId
           status: quoteStatusMap[aq.status] ?? 'Pending', // Map from number to string
           customConfig: aq.customConfig
         } as QuoteRequest));
@@ -141,14 +154,31 @@ export class DataService {
   hasActiveQuote(customerId: string, modelId: string): Observable<boolean> {
      const hasQuote = this.quotes().some(q => 
         q.customerId === customerId && 
-        q.solarSystemModelId === modelId && 
+        q.systemModelId === modelId && 
         (q.status === 'Pending' || q.status === 'Processing' || q.status === 'Ready')
     );
     return of(hasQuote);
   }
 
-  createQuote(customerId: string, modelId: string, location: LocationDetails, config: any): Observable<QuoteRequest> {
-    const payload = { solarSystemModelId: modelId, locationDetails: location, customConfig: config };
+  createQuote(custId: string, modelId: string, location: LocationDetails, config: { batteryStorage: boolean, evCharger: boolean }, notes: string | undefined): Observable<QuoteRequest> {
+    const payload = { 
+      quoteRequest: {
+      customerId: custId, 
+      systemModelId: modelId, 
+      installationAddress: {
+        addressLine1: location.address,
+        addressLine2: null, // Not collected in the form
+        city: location.city,
+        state: location.state,
+        postalCode: location.zipCode
+      },
+      quoteCustomOptions: {
+        optBattery: config.batteryStorage,
+        optEVCharger: config.evCharger
+      },
+      additonalNotes: notes
+    }
+    };
     return this.http.post<QuoteRequest>(`${environment.apiUrl}/quote-requests`, payload).pipe(
       tap(newQuote => this._quotes.update(quotes => [...quotes, newQuote]))
     );

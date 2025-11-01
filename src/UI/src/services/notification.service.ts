@@ -81,7 +81,7 @@ export class NotificationService implements OnDestroy {
         const models = this.dataService.models();
 
         const updatedQuote = quotes.find(q => q.id === payload.quoteRequestId);
-        const model = updatedQuote ? models.find(m => m.id === updatedQuote.solarSystemModelId) : undefined;
+        const model = updatedQuote ? models.find(m => m.id === updatedQuote.systemModelId) : undefined;
 
         const modelName = model?.name || 'your system';
         const toastMessage = `Your quote for '${modelName}' is now ${payload.newStatus}.`;

@@ -211,7 +211,15 @@ namespace Sales.Infrastructure.Data.Migrations
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SystemModelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "Pending"),
-                    CustomConfig = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    AdditonalNotes = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    InstallationAddress_AddressLine1 = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    InstallationAddress_AddressLine2 = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    InstallationAddress_City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    InstallationAddress_Country = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "USA"),
+                    InstallationAddress_PostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    InstallationAddress_State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    QuoteCustomOptions_OptBattery = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    QuoteCustomOptions_OptEVCharger = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -303,9 +311,9 @@ namespace Sales.Infrastructure.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "4b2cc126-a558-4e54-9860-9d97dac4782a", "admin@solarsystems.com", true, false, null, "ADMIN@SOLARSYSTEMS.COM", "ADMIN", "AQAAAAIAAYagAAAAEF3treRzVGamPNMFRO3bkRLZWAAtwmjPdFLFekxhwYNt4kJr6+SE/Nh4RTAbEjfxkw==", null, false, "eb6cc218-6619-49ad-807d-9c75aa6d4228", false, "admin" },
-                    { "a18be9c0-aa65-4af8-bd17-00bd9344e576", 0, "839384ad-dba3-461a-8cb7-93279b163145", "johndoe@email.com", true, false, null, "JOHNDOE@EMAIL.COM", "JOHNDOE", "AQAAAAIAAYagAAAAEGtS0PWyR2d+ehexLj5rvXWEjA4KOOriSgMM5rSKc4VTa93XCaHdkPj22uSiWkXpew==", null, false, "4601027b-c598-448c-abc6-50dff7ce7948", false, "johndoe" },
-                    { "a18be9c0-aa65-4af8-bd17-00bd9344e577", 0, "cb1e5c11-3db4-42ee-a4db-0836cf7afc89", "janesmith@email.com", true, false, null, "JANESMITH@EMAIL.COM", "JANESMITH", "AQAAAAIAAYagAAAAEH/3yJ4STdKxCZV39HL2HxG/3O8pg7SDyCf6q49exNkuCSh3Q0lVsTljzbCNv2z33A==", null, false, "7cd7378f-6b0f-4daf-af90-3409353152b5", false, "janesmith" }
+                    { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "7e03f19b-fb81-441e-8e30-f1542de69bdb", "admin@solarsystems.com", true, false, null, "ADMIN@SOLARSYSTEMS.COM", "ADMIN", "AQAAAAIAAYagAAAAEBm6Uc0o6KEvaQEdLqeVUnU91szFFjFYxEU6+liKCAexGJ5yzdpf6VaX7/6k4UdfTQ==", null, false, "4cf1bd7f-2119-49bb-a472-b89462aa64df", false, "admin" },
+                    { "a18be9c0-aa65-4af8-bd17-00bd9344e576", 0, "7cc0bbe1-275e-4084-9522-428a46a2e7d1", "johndoe@email.com", true, false, null, "JOHNDOE@EMAIL.COM", "JOHNDOE", "AQAAAAIAAYagAAAAEHmTX02bJ0s8ynfJaG+Dg8lHAO8P8MArbdToGgzOYC0xznSpKsWEGoxdAjtesuCwXg==", null, false, "c03011b5-c00e-4d55-a0d7-d362eabb1cc9", false, "johndoe" },
+                    { "a18be9c0-aa65-4af8-bd17-00bd9344e577", 0, "31184384-cb0d-4d60-9ba0-de6cd0366618", "janesmith@email.com", true, false, null, "JANESMITH@EMAIL.COM", "JANESMITH", "AQAAAAIAAYagAAAAEG983Ef1gdCPPDE3KCcIB0qJ9HZWhYIGvi/tQmjjWUEtq5ivxIAGHS7qT4XBN7L6Zg==", null, false, "6ad3b318-d363-4b02-bdda-118a0ab105f7", false, "janesmith" }
                 });
 
             migrationBuilder.InsertData(

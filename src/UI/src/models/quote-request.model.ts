@@ -4,7 +4,7 @@ export type QuoteStatus = 'Pending' | 'Processing' | 'Ready' | 'Expired';
 export interface QuoteRequest {
   id: string;
   customerId: string;
-  solarSystemModelId: string; // This is correct for customer-facing quotes
+  systemModelId: string; // This is correct for customer-facing quotes
   status: QuoteStatus;
   createdAt?: Date; // Make optional as it's not in the admin list
   customConfig: string | null;

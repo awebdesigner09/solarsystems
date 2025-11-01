@@ -26,7 +26,7 @@
                     dto.Address.AddressLine2,
                     dto.Address.City,
                     dto.Address.State,
-                    dto.Address.ZipCode,
+                    dto.Address.PostalCode,
                     dto.Address.Country));
         }
     }

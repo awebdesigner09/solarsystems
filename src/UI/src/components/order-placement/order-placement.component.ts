@@ -100,7 +100,7 @@ export class OrderPlacementComponent implements OnInit {
       switchMap(quoteId => this.dataService.getQuoteById(quoteId)),
       filter((quote): quote is QuoteRequest => !!quote && quote.status === 'Ready'),
       switchMap(quote => {
-        return this.dataService.getSolarSystemModelById(quote.solarSystemModelId).pipe(
+        return this.dataService.getSolarSystemModelById(quote.systemModelId).pipe(
           map(model => {
             if (!model) return undefined;
             // Price calculation logic is removed as customConfig is now a string.

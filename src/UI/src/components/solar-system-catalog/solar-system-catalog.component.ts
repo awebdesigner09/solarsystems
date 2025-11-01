@@ -82,7 +82,7 @@ export class SolarSystemCatalogComponent implements OnInit {
 
   async deleteModel(id: string): Promise<void> {
     if (confirm('Are you sure you want to delete this model?')) {
-      const success = await firstValueFrom(this.dataService.deleteSolarSystemModel(id));
+      const success = await this.dataService.deleteSolarSystemModel(id);
       if (success) {
         this.toastService.show('Model deleted successfully.', 'success');
       }

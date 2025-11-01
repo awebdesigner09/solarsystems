@@ -27,8 +27,47 @@ namespace Sales.Infrastructure.Data.Configurations
                 .HasConversion(
                     status => status.ToString(),
                     dbStatus => Enum.Parse<QuoteRequestStatus>(dbStatus));
+            
+            builder.ComplexProperty(
 
-            builder.Property(qr => qr.CustomConfig)
+                c => c.InstallationAddress,
+                addressBuilder =>
+                {
+                    addressBuilder.Property(a => a.AddressLine1)
+                        .HasMaxLength(200)
+                        .IsRequired();
+
+                    addressBuilder.Property(a => a.AddressLine2)
+                        .HasMaxLength(200);
+
+                    addressBuilder.Property(a => a.City)
+                        .HasMaxLength(100)
+                        .IsRequired();
+
+                    addressBuilder.Property(a => a.State)
+                        .HasMaxLength(100)
+                        .IsRequired();
+
+                    addressBuilder.Property(a => a.PostalCode)
+                        .HasMaxLength(20)
+                        .IsRequired();
+
+                    addressBuilder.Property(a => a.Country)
+                        .HasDefaultValue("USA");
+                });
+
+            builder.ComplexProperty(
+                qr => qr.QuoteCustomOptions,
+                optionsBuilder =>
+                {
+                    optionsBuilder.Property(o => o.OptBattery)
+                    .HasDefaultValue(false);
+
+                    optionsBuilder.Property(o => o.OptEVCharger)
+                    .HasDefaultValue(false);
+                });
+
+            builder.Property(qr => qr.AdditonalNotes)
                 .HasMaxLength(2000)
                 .IsRequired(false);
 

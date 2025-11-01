@@ -12,7 +12,12 @@ namespace Sales.Infrastructure.Data.Extensions
                     "monocrystalline.png"),
                 SystemModel.Create(SystemModelId.Of(new Guid("7FBD0B40-35F0-442F-B2A7-B07AB6818278")), "Polycrystalline", "Polycrystalline", 7.5m, 22500,
                     "A polycrystalline solar panel is a type of solar panel made from multiple silicon crystals that are melted and fused together. This process creates a less uniform, mosaic-like surface and makes them more affordable and cost-effective to produce than monocrystalline panels. While they have a lower efficiency rate than monocrystalline panels, they are still a durable and long-lasting renewable energy source.  \r\n",
-                    "polycrystalline.png")
+                    "polycrystalline.png"),
+                SystemModel.Create(SystemModelId.Of(new Guid("7f0f5bbf-fa7a-4fa6-8d7e-bdf81d5bb097")), "Thin-film", "Thin-Film", 4.00m, 250m,
+                    "A thin film solar panel is a type of photovoltaic panel made by depositing one or more thin layers of photovoltaic material onto a substrate like glass, plastic, or metal. These panels are known for being lightweight, flexible, and often more budget-friendly to produce than traditional silicon panels. They are used in various applications, from portable devices to building-integrated systems and large solar power stations.",
+                    "thinfilm.png"),
+                SystemModel.Create(SystemModelId.Of(new Guid("cf3269cb-0608-4d32-9e54-08504775537c")), "Bi-Focal","Bi-Focal", 12.00m, 1100.00m, "bifacial solar panel is a solar panel that can capture sunlight and generate electricity from both its front and back surfaces. This is made possible by its design, which features a transparent backsheet or glass instead of the opaque back material found on traditional panels. This dual-sided capability can lead to increased energy production, especially in locations with reflective surfaces, by capturing both direct and reflected light.",
+                    "bifocal.png")
             };
 
         public static IEnumerable<Customer> Customers
@@ -33,8 +38,22 @@ namespace Sales.Infrastructure.Data.Extensions
         public static IEnumerable<QuoteRequest> QuoteRequests =>
             new List<QuoteRequest>
             {
-                QuoteRequest.Create(QuoteRequestId.Of(new Guid("0B062865-7015-446E-858E-FF23071D0DB7")), CustomerId.Of(new Guid("F019DE72-D441-4C63-AE1B-E3A93A0976AF")), SystemModelId.Of(new Guid("90DA9DFB-EB54-42C7-BCED-93E8549213FF"))),
-                QuoteRequest.Create(QuoteRequestId.Of(new Guid("B12137BE-7C40-4C68-B208-06745EBDBBE3")), CustomerId.Of(new Guid("5CD5BD3C-2B96-4E6D-8D5B-53DD00CD6D56")), SystemModelId.Of(new Guid("7FBD0B40-35F0-442F-B2A7-B07AB6818278")), "Custom instructions")
+                QuoteRequest.Create(
+                    QuoteRequestId.Of(new Guid("0B062865-7015-446E-858E-FF23071D0DB7")), 
+                    CustomerId.Of(new Guid("F019DE72-D441-4C63-AE1B-E3A93A0976AF")), 
+                    SystemModelId.Of(new Guid("90DA9DFB-EB54-42C7-BCED-93E8549213FF")),
+                    Address.Of("123 Wolf Rd","","Prosperity Hills","NY","50050"),
+                    QuoteCustomOptions.Of(true,false),
+                    null
+                    ),
+                QuoteRequest.Create(
+                    QuoteRequestId.Of(new Guid("B12137BE-7C40-4C68-B208-06745EBDBBE3")), 
+                    CustomerId.Of(new Guid("5CD5BD3C-2B96-4E6D-8D5B-53DD00CD6D56")), 
+                    SystemModelId.Of(new Guid("7FBD0B40-35F0-442F-B2A7-B07AB6818278")),
+                    Address.Of("123 Tux Dr","","Prospect Heights","IL","60089","USA"),
+                    QuoteCustomOptions.Of(true,true),
+                    "Additional instructions"
+                    )
             };
 
         

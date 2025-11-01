@@ -7,5 +7,7 @@ namespace Sales.Application.Dtos
         Guid CustomerId,
         Guid SystemModelId,
         QuoteRequestStatus Status,
-        string? CustomConfig);
+        AddressDto InstallationAddress,
+        QuoteCustomOptionsDto QuoteCustomOptions,
+        string? AdditonalNotes);
 }

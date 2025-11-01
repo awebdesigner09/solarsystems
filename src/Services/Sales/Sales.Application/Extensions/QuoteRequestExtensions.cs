@@ -17,7 +17,17 @@
                 CustomerId: quoteRequest.CustomerId.Value,
                 SystemModelId: quoteRequest.SystemModelId.Value,
                 Status: quoteRequest.Status,
-                CustomConfig: quoteRequest.CustomConfig
+                InstallationAddress: new AddressDto(
+                    quoteRequest.InstallationAddress.AddressLine1, 
+                    quoteRequest.InstallationAddress.AddressLine2, 
+                    quoteRequest.InstallationAddress.City,
+                    quoteRequest.InstallationAddress.State,
+                    quoteRequest.InstallationAddress.PostalCode,
+                    quoteRequest.InstallationAddress.Country),
+                QuoteCustomOptions: new QuoteCustomOptionsDto(
+                    quoteRequest.QuoteCustomOptions.OptBattery,
+                    quoteRequest.QuoteCustomOptions.OptEVCharger),
+                AdditonalNotes: quoteRequest.AdditonalNotes
             );
         }
     }

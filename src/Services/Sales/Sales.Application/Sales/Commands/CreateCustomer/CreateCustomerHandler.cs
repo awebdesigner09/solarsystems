@@ -20,7 +20,7 @@
                 id: CustomerId.Of(Guid.NewGuid()),
                 name: dto.Name,
                 email: dto.Email,
-                address: Address.Of(dto.Address.AddressLine1, dto.Address.AddressLine2, dto.Address.City, dto.Address.State, dto.Address.ZipCode, dto.Address.Country),
+                address: Address.Of(dto.Address.AddressLine1, dto.Address.AddressLine2, dto.Address.City, dto.Address.State, dto.Address.PostalCode, dto.Address.Country),
                 userId: userId);
 
             return newCustomer;

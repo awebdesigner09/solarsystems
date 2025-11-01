@@ -8,6 +8,8 @@ import { map } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
 const TOKEN_KEY = 'auth_token';
+const CUSTOMER_ID_KEY = 'customer_id';
+const USERNAME_KEY = 'username';
 
 
 @Injectable({
@@ -26,7 +28,7 @@ export class AuthService {
   );
 
   constructor() {
-    this.loadToken();
+    this.loadSession();
     effect(() => {
       if (!this.isLoggedIn()) {
         this.router.navigate(['/login']);
@@ -34,23 +36,28 @@ export class AuthService {
     });
   }
 
-  private loadToken() {
+  private loadSession() {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem(TOKEN_KEY);
-      if (token) {
+      const customerId = localStorage.getItem(CUSTOMER_ID_KEY);
+      const username = localStorage.getItem(USERNAME_KEY);
+
+      if (token && username) {
         try {
           const payload = JSON.parse(atob(token.split('.')[1]));
           // Map the JWT claims to our User model
           const user: User = {
             id: payload.sub,
+            customerId: customerId ?? undefined,
             email: payload.email,
-            name: payload.name,
+            name: username,
             role: payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
           };
           this._currentUser.set(user);
         } catch (e) {
           console.error('Invalid token', e);
-          localStorage.removeItem(TOKEN_KEY);
+          // Clear all session data on error
+          this.clearSession();
         }
       }
     }
@@ -64,10 +71,10 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<boolean> {
-    return this.http.post<{ token:string }>(`${environment.apiUrl}/auth/login`, { username, password })
+    return this.http.post<{ succeeded: boolean, token: string, customerId: string, name: string }>(`${environment.apiUrl}/auth/login`, { username, password })
       .pipe(
         map(response => {
-          this.saveTokenAndSetUser(response.token);
+          this.saveSessionAndSetUser(response.token, response.customerId, response.name);
           const targetUrl = this.isAdmin() ? '/admin' : '/catalog';
           this.router.navigate([targetUrl]);
           return true;
@@ -75,11 +82,20 @@ export class AuthService {
       );
   }
 
-  private saveTokenAndSetUser(token: string) {
+  private saveSessionAndSetUser(token: string, customerId: string | null, name: string) {
     if (typeof window !== 'undefined') {
       localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(USERNAME_KEY, name);
+      if (customerId) {
+        localStorage.setItem(CUSTOMER_ID_KEY, customerId);
+      }
     }
-    this.loadToken(); // Reload user from the new token
+    this.loadSession(); // Reload user from the new token and stored data
+  }
+
+  private clearSession() {
+    const keys = [TOKEN_KEY, CUSTOMER_ID_KEY, USERNAME_KEY];
+    keys.forEach(k => localStorage.removeItem(k));
   }
 
   register(
@@ -110,9 +126,7 @@ export class AuthService {
   }
   
   logout() {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem(TOKEN_KEY);
-    }
+    this.clearSession();
     this._currentUser.set(null);
     this.router.navigate(['/login']);
   }

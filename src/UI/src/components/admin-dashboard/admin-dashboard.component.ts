@@ -125,7 +125,7 @@ export class AdminDashboardComponent implements OnInit {
     return allQuotes
         .map(quote => ({
             ...quote,
-            modelName: allModels.find(m => m.id === quote.solarSystemModelId)?.name || 'Unknown',
+            modelName: allModels.find(m => m.id === quote.systemModelId)?.name || 'Unknown',
         }))
         .sort((a, b) => {
             const aTime = a.createdAt?.getTime() ?? 0;

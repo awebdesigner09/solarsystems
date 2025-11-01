@@ -256,15 +256,15 @@ namespace Sales.Infrastructure.Data.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4b2cc126-a558-4e54-9860-9d97dac4782a",
+                            ConcurrencyStamp = "7e03f19b-fb81-441e-8e30-f1542de69bdb",
                             Email = "admin@solarsystems.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SOLARSYSTEMS.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF3treRzVGamPNMFRO3bkRLZWAAtwmjPdFLFekxhwYNt4kJr6+SE/Nh4RTAbEjfxkw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBm6Uc0o6KEvaQEdLqeVUnU91szFFjFYxEU6+liKCAexGJ5yzdpf6VaX7/6k4UdfTQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "eb6cc218-6619-49ad-807d-9c75aa6d4228",
+                            SecurityStamp = "4cf1bd7f-2119-49bb-a472-b89462aa64df",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -272,15 +272,15 @@ namespace Sales.Infrastructure.Data.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e576",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "839384ad-dba3-461a-8cb7-93279b163145",
+                            ConcurrencyStamp = "7cc0bbe1-275e-4084-9522-428a46a2e7d1",
                             Email = "johndoe@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EMAIL.COM",
                             NormalizedUserName = "JOHNDOE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGtS0PWyR2d+ehexLj5rvXWEjA4KOOriSgMM5rSKc4VTa93XCaHdkPj22uSiWkXpew==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHmTX02bJ0s8ynfJaG+Dg8lHAO8P8MArbdToGgzOYC0xznSpKsWEGoxdAjtesuCwXg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4601027b-c598-448c-abc6-50dff7ce7948",
+                            SecurityStamp = "c03011b5-c00e-4d55-a0d7-d362eabb1cc9",
                             TwoFactorEnabled = false,
                             UserName = "johndoe"
                         },
@@ -288,15 +288,15 @@ namespace Sales.Infrastructure.Data.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e577",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cb1e5c11-3db4-42ee-a4db-0836cf7afc89",
+                            ConcurrencyStamp = "31184384-cb0d-4d60-9ba0-de6cd0366618",
                             Email = "janesmith@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "JANESMITH@EMAIL.COM",
                             NormalizedUserName = "JANESMITH",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH/3yJ4STdKxCZV39HL2HxG/3O8pg7SDyCf6q49exNkuCSh3Q0lVsTljzbCNv2z33A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG983Ef1gdCPPDE3KCcIB0qJ9HZWhYIGvi/tQmjjWUEtq5ivxIAGHS7qT4XBN7L6Zg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7cd7378f-6b0f-4daf-af90-3409353152b5",
+                            SecurityStamp = "6ad3b318-d363-4b02-bdda-118a0ab105f7",
                             TwoFactorEnabled = false,
                             UserName = "janesmith"
                         });
@@ -464,15 +464,15 @@ namespace Sales.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AdditonalNotes")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomConfig")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
@@ -491,6 +491,56 @@ namespace Sales.Infrastructure.Data.Migrations
 
                     b.Property<Guid>("SystemModelId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.ComplexProperty<Dictionary<string, object>>("InstallationAddress", "Sales.Domain.Models.QuoteRequest.InstallationAddress#Address", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("AddressLine1")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("nvarchar(200)");
+
+                            b1.Property<string>("AddressLine2")
+                                .HasMaxLength(200)
+                                .HasColumnType("nvarchar(200)");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("nvarchar(max)")
+                                .HasDefaultValue("USA");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("QuoteCustomOptions", "Sales.Domain.Models.QuoteRequest.QuoteCustomOptions#QuoteCustomOptions", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<bool>("OptBattery")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bit")
+                                .HasDefaultValue(false);
+
+                            b1.Property<bool>("OptEVCharger")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bit")
+                                .HasDefaultValue(false);
+                        });
 
                     b.HasKey("Id");
 

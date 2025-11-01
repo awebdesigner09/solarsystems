@@ -83,37 +83,30 @@ export class CustomerQuotesComponent implements OnInit {
   private dataService = inject(DataService);
   private authService = inject(AuthService);
 
-  quotesWithModels = signal<QuoteViewModel[]>([]);
   isLoading = signal(true);
   
   customerQuotes = computed(() => {
       const currentUser = this.authService.currentUser();
-      if (!currentUser) return [];
-      return this.dataService.quotes().filter(q => q.customerId === currentUser.id);
+      if (!currentUser?.customerId) return [];
+      // The data service already fetches quotes for the correct customer.
+      // No need to filter again here.
+      return this.dataService.quotes();
   });
   
   models = this.dataService.models;
 
-  constructor() {
-    effect(() => {
-      const quotes = this.customerQuotes();
-      const allModels = this.models();
-      const viewModels = quotes.map(quote => {
-        const model = allModels.find(m => m.id === quote.solarSystemModelId);
-        let totalPrice = model?.basePrice || 0;
-        // Price calculation based on customConfig is removed as it's now a string.
-        // This should be handled by the backend.
-        return { ...quote, model, totalPrice };
-      });
-    });
-  }
+  quotesWithModels = computed(() => {
+    const quotes = this.customerQuotes();
+    const allModels = this.models();
+    return quotes.map(quote => ({ ...quote, model: allModels.find(m => m.id === quote.systemModelId), totalPrice: allModels.find(m => m.id === quote.systemModelId)?.basePrice || 0 }));
+  });
 
   ngOnInit(): void {
     this.isLoading.set(true);
     const currentUser = this.authService.currentUser();
-    if (currentUser) {
+    if (currentUser?.customerId) {
         combineLatest([
-            this.dataService.getQuotesByCustomerId(currentUser.id),
+            this.dataService.getQuotesByCustomerId(currentUser.customerId),
             this.dataService.getSolarSystemModels()
         ]).pipe(
             finalize(() => this.isLoading.set(false))

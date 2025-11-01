@@ -38,6 +38,7 @@ import { SolarSystemModel } from '../../models/solar-system-model.model';
                 <option value="Monocrystalline">Monocrystalline</option>
                 <option value="Polycrystalline">Polycrystalline</option>
                 <option value="Thin-Film">Thin-Film</option>
+                <option value="Bi-Focal">Bi-Focal</option>
               </select>
             </div>
 

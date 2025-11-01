@@ -33,7 +33,15 @@ namespace Sales.Application.Sales.Commands.CreateQuoteRequest
                 QuoteRequestId = quoteRequest.Id.Value,
                 CustomerId = quoteRequest.CustomerId.Value,
                 SystemModelId = quoteRequest.SystemModelId.Value,
-                CustomConfig = quoteRequest.CustomConfig
+                InstallAddress1 = quoteRequest.InstallationAddress.AddressLine1,
+                InstallAddress2 = quoteRequest.InstallationAddress.AddressLine2,
+                City = quoteRequest.InstallationAddress.City,
+                State = quoteRequest.InstallationAddress.State,
+                PostalCode = quoteRequest.InstallationAddress.PostalCode,
+                Country = quoteRequest.InstallationAddress.Country,
+                optBattery = quoteRequest.QuoteCustomOptions.OptBattery,
+                optEVCharger = quoteRequest.QuoteCustomOptions.OptEVCharger,
+                addtionalNotes = quoteRequest.AdditonalNotes
             };
             await publishEndpoint.Publish(quoteRequestEvent, cancellationToken);
             await counter.UpAsync(
@@ -50,7 +58,17 @@ namespace Sales.Application.Sales.Commands.CreateQuoteRequest
                 id: QuoteRequestId.Of(Guid.NewGuid()),
                 customerId: CustomerId.Of(dto.CustomerId),
                 systemModelId: SystemModelId.Of(dto.SystemModelId),
-                customConfig: dto.CustomConfig);
+                installationAddress: Address.Of(
+                    dto.InstallationAddress.AddressLine1,
+                    dto.InstallationAddress.AddressLine2,
+                    dto.InstallationAddress.City,
+                    dto.InstallationAddress.State,
+                    dto.InstallationAddress.PostalCode,
+                    dto.InstallationAddress.Country),
+                quoteCustomOptions: QuoteCustomOptions.Of(
+                    dto.QuoteCustomOptions.OptBattery, 
+                    dto.QuoteCustomOptions.OptEVCharger),
+                additonalNotes: dto.AdditonalNotes);
 
             return newQuoteRequest;
         }

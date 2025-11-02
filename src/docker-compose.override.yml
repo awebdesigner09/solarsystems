@@ -60,3 +60,14 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  ui:
+    container_name: ui
+    restart: always
+    ports:
+      - "3001:80"
+    labels:
+      - "com.microsoft.visualstudio.debuggee.program=nginx"
+      - "com.microsoft.visualstudio.debuggee.arguments=-g 'daemon off;'"
+      - "com.microsoft.visualstudio.debuggee.http.port=3001"
+    depends_on:
+      - sales.api

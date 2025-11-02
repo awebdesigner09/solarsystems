@@ -15,4 +15,8 @@ services:
     build:
       context: .
       dockerfile: Services/Sales/Sales.QuotesWorker/Dockerfile
-
+  ui:
+    image: ${DOCKER_REGISTRY-}ui
+    build:
+      context: .
+      dockerfile: UI/Dockerfile

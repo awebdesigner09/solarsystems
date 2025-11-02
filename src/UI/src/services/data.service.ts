@@ -4,6 +4,7 @@ import { Observable, of, throwError, tap, map } from 'rxjs';
 import { SolarSystemModel } from '../models/solar-system-model.model';
 import { AdminQuoteRequest, QuoteRequest, QuoteStatus } from '../models/quote-request.model';
 import { LocationDetails } from '../models/customer.model';
+import { Quote } from '../models/quote.model';
 import { Order, OrderStatus } from '../models/order.model';
 import { environment } from '../environments/environment';
 
@@ -147,8 +148,16 @@ export class DataService {
   }
 
   getQuoteById(id: string): Observable<QuoteRequest | undefined> {
-    // This should be a real API call in a real app
-    return this.http.get<QuoteRequest>(`${environment.apiUrl}/quote-requests/${id}`);
+    return this.http.get<AdminQuoteRequest>(`${environment.apiUrl}/quote-requests/${id}`).pipe(
+      map(aq => aq ? { ...aq, status: quoteStatusMap[aq.status] ?? 'Pending' } as QuoteRequest : undefined)
+    );
+  }
+  getQuoteDetails(quoteId: string): Observable<Quote | undefined> {
+    return this.http.get<Quote>(`${environment.apiUrl}/quotes/${quoteId}`);
+  }
+
+  getQuoteByRequestId(quoteRequestId: string): Observable<Quote | undefined> {
+    return this.http.get<Quote>(`${environment.apiUrl}/quotes/${quoteRequestId}`);
   }
 
   hasActiveQuote(customerId: string, modelId: string): Observable<boolean> {
@@ -218,10 +227,13 @@ export class DataService {
     );
   }
 
-  createOrder(quoteRequestId: string): Observable<Order> {
-    return this.http.post<Order>(`${environment.apiUrl}/orders`, { quoteRequestId }).pipe(
+  createOrder(quoteId: string): Observable<{ id: string }> {
+    const payload = { order: { quoteId: quoteId } };
+    return this.http.post<{ id: string }>(`${environment.apiUrl}/orders`, payload).pipe(
       tap(newOrder => {
-        this._orders.update(orders => [...orders, newOrder]);
+        // Don't add the partial object to the full orders list.
+        // The component handles navigation, and the orders list can be refreshed separately.
+        console.log('Order created with ID:', newOrder.id);
       })
     );
   }

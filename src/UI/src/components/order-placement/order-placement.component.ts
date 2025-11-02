@@ -5,12 +5,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap, finalize, map, filter } from 'rxjs/operators';
 import { DataService } from '../../services/data.service';
 import { QuoteRequest } from '../../models/quote-request.model';
+import { Quote } from '../../models/quote.model';
 import { SolarSystemModel } from '../../models/solar-system-model.model';
 
 interface OrderViewModel {
-  quote: QuoteRequest;
+  quote: Quote;
   model: SolarSystemModel;
-  totalPrice: number;
 }
 
 @Component({
@@ -37,13 +37,13 @@ interface OrderViewModel {
              </div>           
              <div class="pt-4 border-t border-gray-700">
               <h3 class="font-semibold text-gray-300">Custom Configuration:</h3>
-              <p class="text-gray-400 mt-2 text-sm">
-                {{ viewModel()?.quote.customConfig || 'Standard Installation' }}
+              <p class="text-gray-400 mt-2 text-sm italic">
+                {{ viewModel()?.quote.customConfiguration || 'Standard Installation' }}
               </p>
             </div>
              <div class="pt-4 border-t border-gray-700 text-right">
                 <p class="text-gray-400">Total Price</p>
-                <p class="text-3xl font-bold text-green-400">{{ viewModel()?.totalPrice | currency:'USD':'symbol':'1.0-0' }}</p>
+                <p class="text-3xl font-bold text-green-400">{{ viewModel()?.quote.totalPrice | currency:'USD':'symbol':'1.0-0' }}</p>
              </div>
           </div>
           
@@ -97,15 +97,13 @@ export class OrderPlacementComponent implements OnInit {
     this.route.paramMap.pipe(
       map(params => params.get('quoteId')),
       filter((quoteId): quoteId is string => !!quoteId),
-      switchMap(quoteId => this.dataService.getQuoteById(quoteId)),
-      filter((quote): quote is QuoteRequest => !!quote && quote.status === 'Ready'),
-      switchMap(quote => {
-        return this.dataService.getSolarSystemModelById(quote.systemModelId).pipe(
+      switchMap(quoteRequestId => this.dataService.getQuoteByRequestId(quoteRequestId)),
+      filter((quote): quote is Quote => !!quote),
+      switchMap(quoteDetails => {
+        return this.dataService.getSolarSystemModelById(quoteDetails.systemModelId).pipe(
           map(model => {
             if (!model) return undefined;
-            // Price calculation logic is removed as customConfig is now a string.
-            // This should be handled by the backend.
-            return { quote, model, totalPrice: model.basePrice };
+            return { quote: quoteDetails, model };
           })
         );
       }),

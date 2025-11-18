@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Pagination;
-using Sales.Application.Sales.Queries.GetCustomerQuoteRequests;
+﻿using Sales.Application.Sales.Queries.GetCustomerQuoteRequests;
 
 namespace Sales.Application.Sales.Queries.GetQuoteRequests
 {

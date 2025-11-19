@@ -17,6 +17,9 @@ namespace Sales.QuotesWorker.Commands.CreateQuote
     {
         public async Task<CreateQuoteResult> Handle(CreateQuoteCommand command, CancellationToken cancellationToken)
         {
+            // Simulate processing delay
+            await Task.Delay(2000);
+
             var newQuote = await CreateNewQuote(command.QuoteRequest,cancellationToken);
             // Store Quote in DB and Cache
             var quote =await quoteRepository.StoreQuoteAsync(newQuote, cancellationToken);

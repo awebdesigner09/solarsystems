@@ -41,7 +41,7 @@ import { ToastType } from '../../models/toast.model';
             <ng-template #simpleToast>
               <div [class]="toastClasses(toast.type)">
                 {{ toast.message }}
-                <button (click)="remove(toast.id)">Close</button>
+                <button (click)="remove(toast.id)"></button>
               </div>
             </ng-template>
           </div>

@@ -4,7 +4,7 @@ namespace Sales.API.Endpoints.Quote
 {
     public class GetQuote : ICarterModule
     {
-        public record GetQuoteResponse(QuoteDto QuoteDetails);
+        public record GetQuoteResponse(QuoteDto Quotes);
         public void AddRoutes(IEndpointRouteBuilder app)
         {
             app.MapGet("/quote/{id}", async (Guid Id, ISender sender) =>

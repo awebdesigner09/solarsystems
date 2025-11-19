@@ -212,11 +212,11 @@ export class DataService {
   getOrdersByCustomerId(customerId: string): Observable<OrderSummary[]> {
     return this.http.get<{ ordersSummary: OrderSummary[] }>(`${environment.apiUrl}/orders/${customerId}`).pipe(
       map(response => {
-        const summaries = response?.ordersSummary?.data || [];
+        const summaries = response?.ordersSummary || [];
         return summaries.map(summary => ({
           id: summary.id,
           quoteId: summary.quoteId,
-          systemModelName: summary.baseModel, // Map from baseModel to systemModelName
+          systemModelName: summary.systemModelName, // Map from baseModel to systemModelName
           city: summary.city,
           state: summary.state,
           totalPrice: summary.totalPrice,

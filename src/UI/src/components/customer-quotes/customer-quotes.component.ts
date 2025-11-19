@@ -1,14 +1,15 @@
 
 import { Component, ChangeDetectionStrategy, inject, signal, OnInit, computed, effect } from '@angular/core';
 import { CommonModule, DatePipe, CurrencyPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { combineLatest } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Router, RouterLink } from '@angular/router';
+import { combineLatest, of } from 'rxjs';
+import { finalize, tap, catchError } from 'rxjs/operators';
 
 import { DataService } from '../../services/data.service';
 import { AuthService } from '../../services/auth.service';
 import { QuoteRequest } from '../../models/quote-request.model';
 import { SolarSystemModel } from '../../models/solar-system-model.model';
+import { ToastService } from '../../services/toast.service';
 
 interface QuoteViewModel extends QuoteRequest {
   model?: SolarSystemModel;
@@ -55,12 +56,12 @@ interface QuoteViewModel extends QuoteRequest {
 
                 @if (quote.status === 'Ready') {
                   <div class="mt-4 text-right">
-                    <a [routerLink]="['/order', quote.id]" class="inline-flex items-center px-6 py-2 border border-transparent text-base font-bold rounded-md shadow-sm text-gray-900 bg-yellow-500 hover:bg-yellow-600">
-                      Place Order
+                    <button (click)="placeOrder(quote.id)" class="inline-flex items-center px-6 py-2 border border-transparent text-base font-bold rounded-md shadow-sm text-gray-900 bg-yellow-500 hover:bg-yellow-600">
+                      Place Order                      
                       <svg class="ml-2 -mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                       </svg>
-                    </a>
+                    </button>
                   </div>
                 }
               </div>
@@ -82,6 +83,8 @@ interface QuoteViewModel extends QuoteRequest {
 export class CustomerQuotesComponent implements OnInit {
   private dataService = inject(DataService);
   private authService = inject(AuthService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
 
   isLoading = signal(true);
   
@@ -115,6 +118,22 @@ export class CustomerQuotesComponent implements OnInit {
         this.isLoading.set(false);
     }
   }
+
+  placeOrder(quoteId: string): void {
+    this.dataService.createOrder(quoteId).pipe(
+      tap(order => {
+        console.log('Order successfully created:', order);
+        this.toastService.show('Your order has been placed successfully!', 'success');
+        this.router.navigate(['/orders']);
+      }),
+      catchError(error => {
+        console.error('Error creating order:', error);
+        this.toastService.show('There was a problem placing your order. Please try again later.', 'error');
+        return of(null); // Prevent the error from propagating
+      })
+    ).subscribe();
+  }
+
 
   statusBadgeColor(status: string): string {
     switch (status) {

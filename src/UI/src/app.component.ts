@@ -7,8 +7,7 @@ import { ToastComponent } from './components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
-  // Fix: The component is now standalone by default in Angular v20+
-  // Fix: Added imports for RouterOutlet and HeaderComponent.
+  
   template: `
     <app-header></app-header>
     <main class="bg-gray-900 text-gray-200 min-h-screen">

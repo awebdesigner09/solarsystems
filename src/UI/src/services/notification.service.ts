@@ -26,24 +26,21 @@ export class NotificationService implements OnDestroy {
   private toastService = inject(ToastService);
   private authService = inject(AuthService);
 
+  private notificationEffect = effect(() => {
+    const user = this.authService.currentUser();
+    if (user && user.role.toLowerCase() !== 'admin') { // Connect for any non-admin user (e.g., 'customer')
+      this.startConnection(user.customerId!); // Use customerId for the group
+    } else {
+      this.stopConnection();
+    }
+  });
+
   private hubConnection?: signalR.HubConnection;
 
   constructor() {
-    // --- FOR TESTING: Connect as a specific customer to test SignalR notifications --- (REMOVED)
-    // // This will be replaced by the effect below once login is fully implemented.
-    // // The customerId should be the GUID only, not the full Redis channel name.
-    // const testCustomerId = "5cd5bd3c-2b96-4e6d-8d5b-53dd00cd6d56";
-    // this.startConnection(testCustomerId);
-
-    // --- PRODUCTION CODE: React to user login/logout ---
-    effect(() => {
-      const user = this.authService.currentUser();
-      if (user && user.role === 'customer') {
-        this.startConnection(user.id);
-      } else {
-        this.stopConnection();
-      }
-    });
+    // The constructor is now empty. The effect is defined as a property,
+    // which is a cleaner pattern and ensures it's tied to the service's lifecycle.
+    // The service must be injected somewhere (e.g., AppComponent) to be created.
   }
 
   private startConnection(customerId: string): void {

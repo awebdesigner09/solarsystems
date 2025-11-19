@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 import { QuoteRequest } from '../models/quote-request.model';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, tap } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
 const TOKEN_KEY = 'auth_token';
@@ -73,29 +73,60 @@ export class AuthService {
   login(username: string, password: string): Observable<boolean> {
     return this.http.post<{ succeeded: boolean, token: string, customerId: string, name: string }>(`${environment.apiUrl}/auth/login`, { username, password })
       .pipe(
-        map(response => {
-          this.saveSessionAndSetUser(response.token, response.customerId, response.name);
+        tap(response => {
+          // Directly parse the token and update the user signal here.
+          // This is more direct and ensures reactivity works as expected.
+          const user = this.parseTokenAndCreateUser(response.token, response.customerId, response.name);
+          this._currentUser.set(user);
+
+          // Now save the session data to localStorage.
+          this.saveSession(response.token, response.customerId, response.name);
+
           const targetUrl = this.isAdmin() ? '/admin' : '/catalog';
           this.router.navigate([targetUrl]);
-          return true;
+        }),
+        map(response => response.succeeded), // Pass on the success status
+        catchError(err => {
+          console.error('Login failed', err);
+          this.clearSession();
+          this._currentUser.set(null);
+          return of(false); // Return a failed observable
         })
       );
   }
 
-  private saveSessionAndSetUser(token: string, customerId: string | null, name: string) {
+  private saveSession(token: string, customerId: string | null, name: string) {
     if (typeof window !== 'undefined') {
       localStorage.setItem(TOKEN_KEY, token);
       localStorage.setItem(USERNAME_KEY, name);
       if (customerId) {
         localStorage.setItem(CUSTOMER_ID_KEY, customerId);
       }
+      else {
+        localStorage.removeItem(CUSTOMER_ID_KEY); // Ensure it's cleared for users without one (e.g., admin)
+      }
     }
-    this.loadSession(); // Reload user from the new token and stored data
   }
 
   private clearSession() {
     const keys = [TOKEN_KEY, CUSTOMER_ID_KEY, USERNAME_KEY];
     keys.forEach(k => localStorage.removeItem(k));
+  }
+
+  private parseTokenAndCreateUser(token: string, customerId: string | null, name: string): User | null {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return {
+        id: payload.sub,
+        customerId: customerId ?? undefined,
+        email: payload.email,
+        name: name,
+        role: payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      };
+    } catch (e) {
+      console.error('Failed to parse token during login', e);
+      return null;
+    }
   }
 
   register(

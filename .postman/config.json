@@ -1,0 +1,17 @@
+{
+  "workspace": {
+    "id": "f69950d3-77d5-4ee8-850d-28629b15c25b"
+  },
+  "entities": {
+    "collections": [
+      "..\\postman\\collections\\Solar System Sales.postman_collection.json"
+    ],
+    "environments": [
+      "..\\postman\\environments\\local-docker-https.postman_environment.json",
+      "..\\postman\\environments\\local-vs-https.postman_environment.json"
+    ],
+    "specs": [],
+    "flows": [],
+    "globals": []
+  }
+}

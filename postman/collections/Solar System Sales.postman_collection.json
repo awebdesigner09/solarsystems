@@ -1,0 +1,1093 @@
+{
+  "info": {
+    "_postman_id": "2fedb3c3-57e6-47e8-845e-bef124b115ed",
+    "name": "Solar System Sales",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "system-models",
+      "item": [
+        {
+          "name": "Create",
+          "id": "7b0bb5d9-3d80-4805-8223-56ff07b7cc2e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"SystemModel\":\r\n    {\r\n                \"name\": \"Mono PERC Super\",\r\n                \"panelType\": \"POLY PERC\",\r\n                \"capacityKW\": 99.88,\r\n                \"basePrice\": 1000.90\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/system-models",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "system-models"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read",
+          "id": "0dbf9ac1-868c-4dc1-a0c8-1a462d38c76a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/system-models?PageIndex=0&pageSize=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "system-models"
+              ],
+              "query": [
+                {
+                  "key": "PageIndex",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d67796fb-201e-4c9a-9591-0f80526b3567",
+              "name": "Read",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/system-models?PageIndex=0&pageSize=10",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "system-models"
+                  ],
+                  "query": [
+                    {
+                      "key": "PageIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Nov 2025 03:31:29 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Kestrel"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"systemModels\": {\n        \"pageIndex\": 0,\n        \"pageSize\": 10,\n        \"count\": 4,\n        \"data\": [\n            {\n                \"id\": \"cf3269cb-0608-4d32-9e54-08504775537c\",\n                \"name\": \"Bi-Focal\",\n                \"panelType\": \"Bi-Focal\",\n                \"capacityKW\": 12,\n                \"basePrice\": 1100,\n                \"description\": \"bifacial solar panel is a solar panel that can capture sunlight and generate electricity from both its front and back surfaces. This is made possible by its design, which features a transparent backsheet or glass instead of the opaque back material found on traditional panels. This dual-sided capability can lead to increased energy production, especially in locations with reflective surfaces, by capturing both direct and reflected light.\",\n                \"imageUrl\": \"bifocal.png\"\n            },\n            {\n                \"id\": \"90da9dfb-eb54-42c7-bced-93e8549213ff\",\n                \"name\": \"Mono PERC\",\n                \"panelType\": \"Monocrystalline\",\n                \"capacityKW\": 6,\n                \"basePrice\": 15000,\n                \"description\": \"A monocrystalline solar panel is made from a single, high-purity silicon crystal, giving it a uniform black color and high efficiency. These panels are known for being the most space-efficient type, making them ideal for limited areas, and they generally have a longer lifespan. While traditionally more expensive, their cost is decreasing, and they are very durable and perform well in low-light conditions.\",\n                \"imageUrl\": \"monocrystalline.png\"\n            },\n            {\n                \"id\": \"7fbd0b40-35f0-442f-b2a7-b07ab6818278\",\n                \"name\": \"Polycrystalline\",\n                \"panelType\": \"Polycrystalline\",\n                \"capacityKW\": 7.5,\n                \"basePrice\": 22500,\n                \"description\": \"A polycrystalline solar panel is a type of solar panel made from multiple silicon crystals that are melted and fused together. This process creates a less uniform, mosaic-like surface and makes them more affordable and cost-effective to produce than monocrystalline panels. While they have a lower efficiency rate than monocrystalline panels, they are still a durable and long-lasting renewable energy source.  \\r\\n\",\n                \"imageUrl\": \"polycrystalline.png\"\n            },\n            {\n                \"id\": \"7f0f5bbf-fa7a-4fa6-8d7e-bdf81d5bb097\",\n                \"name\": \"Thin-film\",\n                \"panelType\": \"Thin-Film\",\n                \"capacityKW\": 4,\n                \"basePrice\": 250,\n                \"description\": \"A thin film solar panel is a type of photovoltaic panel made by depositing one or more thin layers of photovoltaic material onto a substrate like glass, plastic, or metal. These panels are known for being lightweight, flexible, and often more budget-friendly to produce than traditional silicon panels. They are used in various applications, from portable devices to building-integrated systems and large solar power stations.\",\n                \"imageUrl\": \"thinfilm.png\"\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update",
+          "id": "f959c2ee-344b-45f3-bcef-6c309bbadf31",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiI2MWUzMGU5NS04YWY5LTQ1OGMtYTQ2YS05NGZkNGYxYWNlM2UiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImExOGJlOWMwLWFhNjUtNGFmOC1iZDE3LTAwYmQ5MzQ0ZTU3NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzYxODk1MTIwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0MDQxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.tKD1fa1MrYpGRn0Wd1gVY0ZU38BWHhxjzU2Yx6bUFWo",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"SystemModel\":\r\n{\r\n                \"id\": \"90da9dfb-eb54-42c7-bced-93e8549213ff\",\r\n                \"name\": \"Mono PERC\",\r\n                \"panelType\": \"Monocrystalline\",\r\n                \"capacityKW\": 6.00,\r\n                \"basePrice\": 15000.00,\r\n                \"description\": \"A monocrystalline solar panel is made from a single, high-purity silicon crystal, giving it a uniform black color and high efficiency. These panels are known for being the most space-efficient type, making them ideal for limited areas, and they generally have a longer lifespan. While traditionally more expensive, their cost is decreasing, and they are very durable and perform well in low-light conditions.\",\r\n                \"imageUrl\": \"Monocrystalline\"\r\n            }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/system-models",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "system-models"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "id": "adca751d-1e7c-4006-bf26-d3d5b735b68a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/system-models/b7250b7b-1239-45e7-b8bf-d5007a16e734",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "system-models",
+                "b7250b7b-1239-45e7-b8bf-d5007a16e734"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "c57e58dd-47a9-40e0-8aab-db823ad5ee90"
+    },
+    {
+      "name": "customers",
+      "item": [
+        {
+          "name": "Create",
+          "id": "1fcda695-223e-4f32-a721-c96d06054028",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"customer\": {\r\n        \"name\": \"Jim Cary\",\r\n        \"email\": \"jimcary@email.com\",\r\n        \"address\": {\r\n            \"addressLine1\": \"642 Lakeview dr\",\r\n            \"addressLine2\": \"Apt 1C\",\r\n            \"city\": \"Wheeling\",\r\n            \"state\": \"IL\",\r\n            \"zipCode\": \"60090\"\r\n        }\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/customers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read",
+          "id": "9a193805-a2c3-4b53-be6b-1e1e9edc77b1",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/customers?PageIndex=0&pageSize=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "customers"
+              ],
+              "query": [
+                {
+                  "key": "PageIndex",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "dd63cd5b-6a80-469b-8300-c29b3b4cbe08",
+              "name": "Read",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/customers?PageIndex=0&pageSize=10",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "customers"
+                  ],
+                  "query": [
+                    {
+                      "key": "PageIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Nov 2025 04:00:03 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Kestrel"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"customers\": {\n        \"pageIndex\": 0,\n        \"pageSize\": 10,\n        \"count\": 3,\n        \"data\": [\n            {\n                \"id\": \"71e1fe4d-4998-4031-bc43-d74adc258ea2\",\n                \"name\": \"customer two\",\n                \"email\": \"customer2@email.com\",\n                \"address\": {\n                    \"addressLine1\": \"123 abc\",\n                    \"addressLine2\": \"line 2\",\n                    \"city\": \"Newyork\",\n                    \"state\": \"NY\",\n                    \"postalCode\": \"5656665\",\n                    \"country\": \"USA\"\n                }\n            },\n            {\n                \"id\": \"5cd5bd3c-2b96-4e6d-8d5b-53dd00cd6d56\",\n                \"name\": \"Jane Smith\",\n                \"email\": \"janesmith@email.com\",\n                \"address\": {\n                    \"addressLine1\": \"456 Oak Ave\",\n                    \"addressLine2\": \"Apt 2\",\n                    \"city\": \"Los Angeles\",\n                    \"state\": \"CA\",\n                    \"postalCode\": \"67890\",\n                    \"country\": \"USA\"\n                }\n            },\n            {\n                \"id\": \"f019de72-d441-4c63-ae1b-e3a93a0976af\",\n                \"name\": \"John Doe\",\n                \"email\": \"johndoe@email.com\",\n                \"address\": {\n                    \"addressLine1\": \"123 Main St\",\n                    \"addressLine2\": \"\",\n                    \"city\": \"San Jose\",\n                    \"state\": \"CA\",\n                    \"postalCode\": \"12345\",\n                    \"country\": \"USA\"\n                }\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update",
+          "id": "45d79775-ebd0-48bd-add2-b7f166c477a2",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"customer\": {\r\n        \"id\": \"e0273648-a07e-4896-8cd7-43d65adc11f0\",\r\n        \"name\": \"Jim Ben Cary\",\r\n        \"email\": \"jimbencary@email.com\",\r\n        \"address\": {\r\n            \"addressLine1\": \"642 Lakeview Dr\",\r\n            \"addressLine2\": \"Apt 2C\",\r\n            \"city\": \"Mount Prospect\",\r\n            \"state\": \"IL\",\r\n            \"zipCode\": \"60080\"\r\n        }\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/customers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "id": "61a1dc69-f661-4b4a-9daf-fe3826e01a31",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"customer\": {\r\n        \"name\": \"Jim Cary\",\r\n        \"email\": \"jimcary@email.com\",\r\n        \"address\": {\r\n            \"addressLine1\": \"642 Lakeview dr\",\r\n            \"addressLine2\": \"Apt 1C\",\r\n            \"city\": \"Wheeling\",\r\n            \"state\": \"IL\",\r\n            \"zipCode\": \"60090\"\r\n        }\r\n    }\r\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/customers/e0273648-a07e-4896-8cd7-43d65adc11f0",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "customers",
+                "e0273648-a07e-4896-8cd7-43d65adc11f0"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "648d58a9-728a-43cc-96b5-430a5d8185e7"
+    },
+    {
+      "name": "quote-requests",
+      "item": [
+        {
+          "name": "Create",
+          "id": "6a7eaa6f-169f-44ae-b95e-09d7988e1493",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quoteRequest\": {\r\n        \"customerId\": \"5cd5bd3c-2b96-4e6d-8d5b-53dd00cd6d56\",\r\n        \"systemModelId\": \"a5058cac-43a7-4292-af85-6669fd969d82\",\r\n        \"status\": 1,\r\n        \"customConfig\": \"Quote request\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/quote-requests",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quote-requests"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read",
+          "id": "8249b924-3fec-4424-a441-a3d30286d96e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiam9obmRvZSIsImp0aSI6IjFmOWU0ZTNkLTcxYjktNDM3MC04NzQ5LWM1NDkxYWE0YWViYSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYTE4YmU5YzAtYWE2NS00YWY4LWJkMTctMDBiZDkzNDRlNTc2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJleHAiOjE3NjM1MzU1MzcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQwNDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.WuE2lhZGhmxrXM_LHQB2-cdfBzp0KBHCjiWAQnKRwqs",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiI2MWUzMGU5NS04YWY5LTQ1OGMtYTQ2YS05NGZkNGYxYWNlM2UiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImExOGJlOWMwLWFhNjUtNGFmOC1iZDE3LTAwYmQ5MzQ0ZTU3NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzYxODk1MTIwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0MDQxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.tKD1fa1MrYpGRn0Wd1gVY0ZU38BWHhxjzU2Yx6bUFWo",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/quote-requests/f019de72-d441-4c63-ae1b-e3a93a0976af",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quote-requests",
+                "f019de72-d441-4c63-ae1b-e3a93a0976af"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fcf03ac6-824b-46e8-90d8-d8a3c7982e0c",
+              "name": "Read",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiI2MWUzMGU5NS04YWY5LTQ1OGMtYTQ2YS05NGZkNGYxYWNlM2UiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImExOGJlOWMwLWFhNjUtNGFmOC1iZDE3LTAwYmQ5MzQ0ZTU3NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzYxODk1MTIwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0MDQxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.tKD1fa1MrYpGRn0Wd1gVY0ZU38BWHhxjzU2Yx6bUFWo",
+                    "type": "text",
+                    "disabled": true
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/quote-requests/f019de72-d441-4c63-ae1b-e3a93a0976af",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "quote-requests",
+                    "f019de72-d441-4c63-ae1b-e3a93a0976af"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Nov 2025 04:01:16 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Kestrel"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"quoteRequests\": [\n        {\n            \"id\": \"0b062865-7015-446e-858e-ff23071d0db7\",\n            \"customerId\": \"f019de72-d441-4c63-ae1b-e3a93a0976af\",\n            \"systemModelId\": \"90da9dfb-eb54-42c7-bced-93e8549213ff\",\n            \"status\": 1,\n            \"installationAddress\": {\n                \"addressLine1\": \"123 Wolf Rd\",\n                \"addressLine2\": \"\",\n                \"city\": \"Prosperity Hills\",\n                \"state\": \"NY\",\n                \"postalCode\": \"50050\",\n                \"country\": \"USA\"\n            },\n            \"quoteCustomOptions\": {\n                \"optBattery\": true,\n                \"optEVCharger\": false\n            },\n            \"additonalNotes\": null\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "admin-all-quotes",
+          "id": "d4c64499-d976-457a-ae5e-a90dd078d81d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiI3N2Y1Y2FhNy1lZDYzLTQxNjMtYjViYS04N2UwYjI0YTA4MWQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImExOGJlOWMwLWFhNjUtNGFmOC1iZDE3LTAwYmQ5MzQ0ZTU3NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzYzNTM1NDk3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0MDQxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.Tffqv8QDYK2TEXGyBq2_jK2pmQaDsrzrmVIU5RXuuh8",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/quote-requests",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quote-requests"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e763f5aa-0972-46cb-91df-bbc65abc4c99",
+              "name": "admin-all-quotes",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/quote-requests",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "quote-requests"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Nov 2025 04:02:32 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Kestrel"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"quoteRequests\": {\n        \"pageIndex\": 0,\n        \"pageSize\": 10,\n        \"count\": 5,\n        \"data\": [\n            {\n                \"id\": \"b12137be-7c40-4c68-b208-06745ebdbbe3\",\n                \"customerId\": \"5cd5bd3c-2b96-4e6d-8d5b-53dd00cd6d56\",\n                \"systemModelId\": \"7fbd0b40-35f0-442f-b2a7-b07ab6818278\",\n                \"status\": 1,\n                \"installationAddress\": {\n                    \"addressLine1\": \"123 Tux Dr\",\n                    \"addressLine2\": \"\",\n                    \"city\": \"Prospect Heights\",\n                    \"state\": \"IL\",\n                    \"postalCode\": \"60089\",\n                    \"country\": \"USA\"\n                },\n                \"quoteCustomOptions\": {\n                    \"optBattery\": true,\n                    \"optEVCharger\": true\n                },\n                \"additonalNotes\": \"Additional instructions\"\n            },\n            {\n                \"id\": \"0b062865-7015-446e-858e-ff23071d0db7\",\n                \"customerId\": \"f019de72-d441-4c63-ae1b-e3a93a0976af\",\n                \"systemModelId\": \"90da9dfb-eb54-42c7-bced-93e8549213ff\",\n                \"status\": 1,\n                \"installationAddress\": {\n                    \"addressLine1\": \"123 Wolf Rd\",\n                    \"addressLine2\": \"\",\n                    \"city\": \"Prosperity Hills\",\n                    \"state\": \"NY\",\n                    \"postalCode\": \"50050\",\n                    \"country\": \"USA\"\n                },\n                \"quoteCustomOptions\": {\n                    \"optBattery\": true,\n                    \"optEVCharger\": false\n                },\n                \"additonalNotes\": null\n            },\n            {\n                \"id\": \"113e59c6-4b96-4a73-8e1b-dbfb895e6692\",\n                \"customerId\": \"71e1fe4d-4998-4031-bc43-d74adc258ea2\",\n                \"systemModelId\": \"cf3269cb-0608-4d32-9e54-08504775537c\",\n                \"status\": 3,\n                \"installationAddress\": {\n                    \"addressLine1\": \"732 Lakeview Dr\",\n                    \"addressLine2\": null,\n                    \"city\": \"New York\",\n                    \"state\": \"Illinois\",\n                    \"postalCode\": \"56566\",\n                    \"country\": \"USA\"\n                },\n                \"quoteCustomOptions\": {\n                    \"optBattery\": false,\n                    \"optEVCharger\": false\n                },\n                \"additonalNotes\": null\n            },\n            {\n                \"id\": \"3bce5c4e-db06-4ebc-bf58-d37d9ecc6bdf\",\n                \"customerId\": \"71e1fe4d-4998-4031-bc43-d74adc258ea2\",\n                \"systemModelId\": \"90da9dfb-eb54-42c7-bced-93e8549213ff\",\n                \"status\": 3,\n                \"installationAddress\": {\n                    \"addressLine1\": \"732 Lakeview Dr Apt 1C\",\n                    \"addressLine2\": null,\n                    \"city\": \"Wheeling\",\n                    \"state\": \"Illinois\",\n                    \"postalCode\": \"60090\",\n                    \"country\": \"USA\"\n                },\n                \"quoteCustomOptions\": {\n                    \"optBattery\": false,\n                    \"optEVCharger\": false\n                },\n                \"additonalNotes\": null\n            },\n            {\n                \"id\": \"f5818ce0-e1a0-4b8d-a3dc-c5704ebfb090\",\n                \"customerId\": \"71e1fe4d-4998-4031-bc43-d74adc258ea2\",\n                \"systemModelId\": \"7fbd0b40-35f0-442f-b2a7-b07ab6818278\",\n                \"status\": 3,\n                \"installationAddress\": {\n                    \"addressLine1\": \"732 Lakeview Dr\",\n                    \"addressLine2\": null,\n                    \"city\": \"Wheeling\",\n                    \"state\": \"Illinois\",\n                    \"postalCode\": \"60090\",\n                    \"country\": \"USA\"\n                },\n                \"quoteCustomOptions\": {\n                    \"optBattery\": false,\n                    \"optEVCharger\": false\n                },\n                \"additonalNotes\": null\n            }\n        ]\n    }\n}"
+            },
+            {
+              "id": "ffa95afc-4bde-4390-ab8e-1fc96593c61c",
+              "name": "admin-all-quotes",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/quote-requests",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "quote-requests"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Nov 2025 04:02:32 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Kestrel"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"quoteRequests\": {\n        \"pageIndex\": 0,\n        \"pageSize\": 10,\n        \"count\": 5,\n        \"data\": [\n            {\n                \"id\": \"b12137be-7c40-4c68-b208-06745ebdbbe3\",\n                \"customerId\": \"5cd5bd3c-2b96-4e6d-8d5b-53dd00cd6d56\",\n                \"systemModelId\": \"7fbd0b40-35f0-442f-b2a7-b07ab6818278\",\n                \"status\": 1,\n                \"installationAddress\": {\n                    \"addressLine1\": \"123 Tux Dr\",\n                    \"addressLine2\": \"\",\n                    \"city\": \"Prospect Heights\",\n                    \"state\": \"IL\",\n                    \"postalCode\": \"60089\",\n                    \"country\": \"USA\"\n                },\n                \"quoteCustomOptions\": {\n                    \"optBattery\": true,\n                    \"optEVCharger\": true\n                },\n                \"additonalNotes\": \"Additional instructions\"\n            },\n            {\n                \"id\": \"0b062865-7015-446e-858e-ff23071d0db7\",\n                \"customerId\": \"f019de72-d441-4c63-ae1b-e3a93a0976af\",\n                \"systemModelId\": \"90da9dfb-eb54-42c7-bced-93e8549213ff\",\n                \"status\": 1,\n                \"installationAddress\": {\n                    \"addressLine1\": \"123 Wolf Rd\",\n                    \"addressLine2\": \"\",\n                    \"city\": \"Prosperity Hills\",\n                    \"state\": \"NY\",\n                    \"postalCode\": \"50050\",\n                    \"country\": \"USA\"\n                },\n                \"quoteCustomOptions\": {\n                    \"optBattery\": true,\n                    \"optEVCharger\": false\n                },\n                \"additonalNotes\": null\n            },\n            {\n                \"id\": \"113e59c6-4b96-4a73-8e1b-dbfb895e6692\",\n                \"customerId\": \"71e1fe4d-4998-4031-bc43-d74adc258ea2\",\n                \"systemModelId\": \"cf3269cb-0608-4d32-9e54-08504775537c\",\n                \"status\": 3,\n                \"installationAddress\": {\n                    \"addressLine1\": \"732 Lakeview Dr\",\n                    \"addressLine2\": null,\n                    \"city\": \"New York\",\n                    \"state\": \"Illinois\",\n                    \"postalCode\": \"56566\",\n                    \"country\": \"USA\"\n                },\n                \"quoteCustomOptions\": {\n                    \"optBattery\": false,\n                    \"optEVCharger\": false\n                },\n                \"additonalNotes\": null\n            },\n            {\n                \"id\": \"3bce5c4e-db06-4ebc-bf58-d37d9ecc6bdf\",\n                \"customerId\": \"71e1fe4d-4998-4031-bc43-d74adc258ea2\",\n                \"systemModelId\": \"90da9dfb-eb54-42c7-bced-93e8549213ff\",\n                \"status\": 3,\n                \"installationAddress\": {\n                    \"addressLine1\": \"732 Lakeview Dr Apt 1C\",\n                    \"addressLine2\": null,\n                    \"city\": \"Wheeling\",\n                    \"state\": \"Illinois\",\n                    \"postalCode\": \"60090\",\n                    \"country\": \"USA\"\n                },\n                \"quoteCustomOptions\": {\n                    \"optBattery\": false,\n                    \"optEVCharger\": false\n                },\n                \"additonalNotes\": null\n            },\n            {\n                \"id\": \"f5818ce0-e1a0-4b8d-a3dc-c5704ebfb090\",\n                \"customerId\": \"71e1fe4d-4998-4031-bc43-d74adc258ea2\",\n                \"systemModelId\": \"7fbd0b40-35f0-442f-b2a7-b07ab6818278\",\n                \"status\": 3,\n                \"installationAddress\": {\n                    \"addressLine1\": \"732 Lakeview Dr\",\n                    \"addressLine2\": null,\n                    \"city\": \"Wheeling\",\n                    \"state\": \"Illinois\",\n                    \"postalCode\": \"60090\",\n                    \"country\": \"USA\"\n                },\n                \"quoteCustomOptions\": {\n                    \"optBattery\": false,\n                    \"optEVCharger\": false\n                },\n                \"additonalNotes\": null\n            }\n        ]\n    }\n}"
+            }
+          ]
+        }
+      ],
+      "id": "fb394792-3560-4f4f-a6ae-23dba6df04fd"
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "login-admin",
+          "id": "f36ce0fd-f103-4c48-b822-e4305fddcf26",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"Admin123!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "28503981-d72f-4e7e-81d5-6eedcbb7ea37",
+              "name": "login-admin",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"Admin123!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Nov 2025 03:58:17 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Kestrel"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"succeeded\": true,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiI3N2Y1Y2FhNy1lZDYzLTQxNjMtYjViYS04N2UwYjI0YTA4MWQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImExOGJlOWMwLWFhNjUtNGFmOC1iZDE3LTAwYmQ5MzQ0ZTU3NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzYzNTM1NDk3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0MDQxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.Tffqv8QDYK2TEXGyBq2_jK2pmQaDsrzrmVIU5RXuuh8\",\n    \"customerId\": \"\",\n    \"name\": \"admin@solarsystems.com\",\n    \"errors\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "login-testuser",
+          "id": "a9121f66-a00a-4b25-bf2f-a05b622bbf5c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"johndoe\",\r\n    \"password\": \"Customer123!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "81c64972-d3a7-4a7f-b135-bf537a088126",
+              "name": "login-testuser",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"johndoe\",\r\n    \"password\": \"Customer123!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Nov 2025 03:58:56 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Kestrel"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"succeeded\": true,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiam9obmRvZSIsImp0aSI6IjFmOWU0ZTNkLTcxYjktNDM3MC04NzQ5LWM1NDkxYWE0YWViYSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYTE4YmU5YzAtYWE2NS00YWY4LWJkMTctMDBiZDkzNDRlNTc2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJleHAiOjE3NjM1MzU1MzcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQwNDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.WuE2lhZGhmxrXM_LHQB2-cdfBzp0KBHCjiWAQnKRwqs\",\n    \"customerId\": \"f019de72-d441-4c63-ae1b-e3a93a0976af\",\n    \"name\": \"John Doe\",\n    \"errors\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "register",
+          "id": "cb3b87ad-71bf-4c4a-966f-f4f0f91cf68d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"testuser\",\r\n    \"email\": \"test@user.com\",\r\n    \"password\": \"Password123!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login-admin",
+          "id": "be88242f-56df-4d23-b116-cc9deed182ff",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"Admin123!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "32802640-6255-4a88-8cbb-5c1ec01ddb49"
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "orders-summary",
+          "id": "4245cfed-ec52-4ae0-b9d2-9f55a791147f",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiI3N2Y1Y2FhNy1lZDYzLTQxNjMtYjViYS04N2UwYjI0YTA4MWQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImExOGJlOWMwLWFhNjUtNGFmOC1iZDE3LTAwYmQ5MzQ0ZTU3NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzYzNTM1NDk3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0MDQxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.Tffqv8QDYK2TEXGyBq2_jK2pmQaDsrzrmVIU5RXuuh8",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orders-summary?PageIndex=0&pageSize=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders-summary"
+              ],
+              "query": [
+                {
+                  "key": "PageIndex",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "08fe649c-8cfa-4106-8071-56cbb8093dcc",
+              "name": "orders-summary",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/orders-summary?PageIndex=0&pageSize=10",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "orders-summary"
+                  ],
+                  "query": [
+                    {
+                      "key": "PageIndex",
+                      "value": "0"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Nov 2025 03:59:40 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Kestrel"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ordersSummary\": {\n        \"pageIndex\": 0,\n        \"pageSize\": 10,\n        \"count\": 2,\n        \"data\": [\n            {\n                \"id\": \"d23e08e0-d751-4520-8910-1aa928d2290c\",\n                \"quoteId\": \"833f7738-bd64-49da-b4f4-82fccf1e68fb\",\n                \"baseModel\": \"Mono PERC\",\n                \"city\": \"San Jose\",\n                \"state\": \"CA\",\n                \"totalPrice\": 16500,\n                \"orderDate\": \"2025-11-18T23:58:02.1346299\",\n                \"orderStatus\": 1,\n                \"statusDate\": \"2025-11-18T23:58:02.13463\"\n            },\n            {\n                \"id\": \"ff7cde8c-2f95-4313-afaa-7a7198fd64fc\",\n                \"quoteId\": \"11813284-63bb-494e-a2b7-be34381fef8b\",\n                \"baseModel\": \"Polycrystalline\",\n                \"city\": \"Los Angeles\",\n                \"state\": \"CA\",\n                \"totalPrice\": 24750,\n                \"orderDate\": \"2025-11-18T23:58:02.1346205\",\n                \"orderStatus\": 1,\n                \"statusDate\": \"2025-11-18T23:58:02.1346272\"\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "create-order",
+          "id": "f8abedd9-a02f-4755-a283-7b485bec9a0d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiam9obmRvZSIsImp0aSI6Ijg4MWU0ODJhLTEwNzMtNGU2ZC1hMTczLWI2YzRmODY1NjJjOCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYTE4YmU5YzAtYWE2NS00YWY4LWJkMTctMDBiZDkzNDRlNTc2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJleHAiOjE3NjM0OTY2NzUsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQwNDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.GjDBcpNOn16zTYdu7WNKZvLyMJEX3ILcwZZxoCRvonM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiI2MWUzMGU5NS04YWY5LTQ1OGMtYTQ2YS05NGZkNGYxYWNlM2UiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImExOGJlOWMwLWFhNjUtNGFmOC1iZDE3LTAwYmQ5MzQ0ZTU3NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzYxODk1MTIwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0MDQxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.tKD1fa1MrYpGRn0Wd1gVY0ZU38BWHhxjzU2Yx6bUFWo",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"order\": {\r\n        \"quoteId\": \"833f7738-bd64-49da-b4f4-82fccf1e68fb\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "customer-orders",
+          "id": "77e03ea2-8621-41a8-b5b9-ca6bbefab0ee",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiam9obmRvZSIsImp0aSI6Ijg4MWU0ODJhLTEwNzMtNGU2ZC1hMTczLWI2YzRmODY1NjJjOCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYTE4YmU5YzAtYWE2NS00YWY4LWJkMTctMDBiZDkzNDRlNTc2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJleHAiOjE3NjM0OTY2NzUsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQwNDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.GjDBcpNOn16zTYdu7WNKZvLyMJEX3ILcwZZxoCRvonM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiI2MWUzMGU5NS04YWY5LTQ1OGMtYTQ2YS05NGZkNGYxYWNlM2UiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImExOGJlOWMwLWFhNjUtNGFmOC1iZDE3LTAwYmQ5MzQ0ZTU3NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzYxODk1MTIwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0MDQxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.tKD1fa1MrYpGRn0Wd1gVY0ZU38BWHhxjzU2Yx6bUFWo",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"order\": {\r\n        \"quoteId\": \"833f7738-bd64-49da-b4f4-82fccf1e68fb\"\r\n    }\r\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/orders/f019de72-d441-4c63-ae1b-e3a93a0976af",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "f019de72-d441-4c63-ae1b-e3a93a0976af"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "036df795-fb84-43a7-bd94-f30ee09c2081"
+    },
+    {
+      "name": "quote",
+      "item": [
+        {
+          "name": "GET",
+          "id": "7901b22b-b4c1-4ae4-8931-df270bb228d0",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiam9obmRvZSIsImp0aSI6Ijg4MWU0ODJhLTEwNzMtNGU2ZC1hMTczLWI2YzRmODY1NjJjOCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYTE4YmU5YzAtYWE2NS00YWY4LWJkMTctMDBiZDkzNDRlNTc2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJleHAiOjE3NjM0OTY2NzUsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQwNDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.GjDBcpNOn16zTYdu7WNKZvLyMJEX3ILcwZZxoCRvonM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiI2MWUzMGU5NS04YWY5LTQ1OGMtYTQ2YS05NGZkNGYxYWNlM2UiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImExOGJlOWMwLWFhNjUtNGFmOC1iZDE3LTAwYmQ5MzQ0ZTU3NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzYxODk1MTIwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0MDQxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.tKD1fa1MrYpGRn0Wd1gVY0ZU38BWHhxjzU2Yx6bUFWo",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/quote/C32E133E-3DB9-4A60-8FB6-4ADB62391402",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quote",
+                "C32E133E-3DB9-4A60-8FB6-4ADB62391402"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "05e905bc-b398-4e9b-961f-ff94dccb4767"
+    },
+    {
+      "name": "health",
+      "id": "9de06088-6f56-4170-bb43-65f8b312ed66",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

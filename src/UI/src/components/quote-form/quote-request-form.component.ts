@@ -187,7 +187,7 @@ export class QuoteRequestFormComponent implements OnInit {
     };
     const notes = formValue.notes || undefined;
     
-    this.dataService.createQuote(currentUser.customerId, this.model()!.id, location, config, notes)
+    this.dataService.createQuoteRequest(currentUser.customerId, this.model()!.id, location, config, notes)
       .pipe(finalize(() => this.isSubmitting.set(false)))
       .subscribe(() => {
         this.router.navigate(['/quotes']);

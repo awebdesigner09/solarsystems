@@ -5,7 +5,7 @@ import { SolarSystemModel } from '../models/solar-system-model.model';
 import { AdminQuoteRequest, QuoteRequest, QuoteStatus } from '../models/quote-request.model';
 import { LocationDetails } from '../models/customer.model';
 import { Quote } from '../models/quote.model';
-import { Order, OrderStatus } from '../models/order.model';
+import { Order, OrderStatus, OrderSummary } from '../models/order.model';
 import { environment } from '../environments/environment';
 
 interface PaginatedResult<T> {
@@ -15,17 +15,12 @@ interface PaginatedResult<T> {
   data: T[];
 }
 
-export interface OrderSummary {
-  id: string;
-  quoteId: string;
-  systemModelName: string;
-  city: string;
-  state: string;
-  totalPrice: number;
-  orderDate: string;
-  orderStatus: OrderStatus;
-  statusDate: string;
-}
+
+const orderStatusMap:{ [key: number]: OrderStatus } ={
+  1: 'Processing',
+  2: 'Confirmed', 
+  3: 'Cancelled'
+};
 
 const quoteStatusMap: { [key: number]: QuoteStatus } = {
   1: 'Pending',
@@ -34,11 +29,6 @@ const quoteStatusMap: { [key: number]: QuoteStatus } = {
   4: 'Expired'
 };
 
-const orderStatusMap: { [key: number]: OrderStatus } = {
-  1: 'Processing',
-  2: 'Confirmed',
-  3: 'Cancelled'
-};
 
 @Injectable({
   providedIn: 'root'
@@ -169,7 +159,7 @@ export class DataService {
     return of(hasQuote);
   }
 
-  createQuote(custId: string, modelId: string, location: LocationDetails, config: { batteryStorage: boolean, evCharger: boolean }, notes: string | undefined): Observable<QuoteRequest> {
+  createQuoteRequest(custId: string, modelId: string, location: LocationDetails, config: { batteryStorage: boolean, evCharger: boolean }, notes: string | undefined): Observable<QuoteRequest> {
     const payload = { 
       quoteRequest: {
       customerId: custId, 
@@ -193,6 +183,20 @@ export class DataService {
     );
   }
 
+  createOrder(quoteId: string): Observable<Order> {
+    const payload = { 
+      order: {
+      quoteId: quoteId
+    }
+    };
+    return this.http.post<Order>(`${environment.apiUrl}/orders`, payload).pipe(
+      tap(newOrder => {
+        this._orders.update(orders => [...orders, newOrder])
+        console.log('Order created with ID:', newOrder);
+        })
+    );
+  }
+  
   updateQuoteStatus(quoteId: string, status: QuoteStatus) {
     // This would be a PUT/PATCH request in a real app
     this.http.put(`${environment.apiUrl}/quote-requests/${quoteId}/status`, { status }).subscribe(() => {
@@ -203,6 +207,26 @@ export class DataService {
   // Orders
   getAllOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${environment.apiUrl}/orders`).pipe(tap(orders => this._orders.set(orders)));
+  }
+
+  getOrdersByCustomerId(customerId: string): Observable<OrderSummary[]> {
+    return this.http.get<{ ordersSummary: OrderSummary[] }>(`${environment.apiUrl}/orders/${customerId}`).pipe(
+      map(response => {
+        const summaries = response?.ordersSummary?.data || [];
+        return summaries.map(summary => ({
+          id: summary.id,
+          quoteId: summary.quoteId,
+          systemModelName: summary.baseModel, // Map from baseModel to systemModelName
+          city: summary.city,
+          state: summary.state,
+          totalPrice: summary.totalPrice,
+          orderDate: summary.orderDate,
+          orderStatus: orderStatusMap[summary.orderStatus] ?? 'Processing', // Map enum number to string
+          statusDate: summary.statusDate
+        }));
+      }),
+      tap(summaries => this._orderSummaries.set(summaries || []))
+    );
   }
   
   getAllOrderSummaries(): Observable<OrderSummary[]> {
@@ -224,17 +248,6 @@ export class DataService {
         }));
       }),
       tap(summaries => this._orderSummaries.set(summaries || []))
-    );
-  }
-
-  createOrder(quoteId: string): Observable<{ id: string }> {
-    const payload = { order: { quoteId: quoteId } };
-    return this.http.post<{ id: string }>(`${environment.apiUrl}/orders`, payload).pipe(
-      tap(newOrder => {
-        // Don't add the partial object to the full orders list.
-        // The component handles navigation, and the orders list can be refreshed separately.
-        console.log('Order created with ID:', newOrder.id);
-      })
     );
   }
 
